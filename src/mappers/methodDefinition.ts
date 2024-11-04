@@ -9,11 +9,9 @@ class MethodDefinitionMapper extends AbstractMapper<TSESTree.MethodDefinition,Da
 		if (this.node.value && this.node.value.type === "FunctionExpression") {
 			const mapper = new FunctionExpressionMapper(this.node.value, this.options, this.context, this.node.key as TSESTree.Identifier);
 
-			return createClassMemberDecl(mapper.map());
+			return mapper.map();
 		}
 	}
-
-	
 }
 
 export default MethodDefinitionMapper;

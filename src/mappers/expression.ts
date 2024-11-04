@@ -3,8 +3,10 @@ import AbstractMapper from "./abstract";
 import { Dafny } from "../types";
 import LiteralMapper from "./literal";
 import IdentifierMapper from "./identifier";
-import { createAsExpression, createBitvectorFactor, createConstAtomExpression, createEquivExpression, createExpression, createFactor, createImpliesExpliesExpression, createLogicalExpression, createLogOp, createPrimaryExpression, createRelationalExpression, createRelOp, createRhs, createShiftTerm, createTerm, createUnaryExpression } from "../typeCreate";
+import { createAsExpression, createAugmentedDotSuffix_, createBitvectorFactor, createConstAtomExpression, createDotSuffix, createEnsuresClause, createEquivExpression, createExpression, createFactor, createImpliesExpliesExpression, createLogicalExpression, createLogOp, createNameSegment, createPrimaryExpression, createRelationalExpression, createRelOp, createRequiresClause, createRhs, createShiftTerm, createSuffix, createTerm, createTo, expressionOrder } from "../typeCreate";
 import { create } from "domain";
+import { createType, createTypeProperty, Type } from "../store/type";
+import { createVariable } from "../store/variable";
 
 class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expression> {
 	checkProofMapValidArguments() {
@@ -26,11 +28,10 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expressi
 			return;
 		}
 
-		return this.createTo<Dafny.Expression>(value, "Expression");
+		return createTo<Dafny.Expression>(value, "Expression");
 	}
 
 	subMap(node: TSESTree.Expression): Dafny.RhsValue|undefined {
-		console.log(node.type, node);
 		if (node.type === "Literal") {
 			const mapper = new LiteralMapper(node, this.options, this.context);
 
@@ -42,13 +43,37 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expressi
 			return mapper.map();
 		}
 		else if (node.type === "MemberExpression") {
-			const variable = this.context.variables.getTypeFromMemberExpression(node);
+			const list = this.getListFromMemberExpression(node);
+			const variableType = this.context.variables.getType(list[0].name);
 
-			if (!variable) {
+			if (!variableType) {
 				throw new Error("Variable not found");
 			}
-
+			const type = this.context.types.get(variableType);
 			
+			if (!type) {
+				throw new Error("Type not found");
+			}
+
+			const expressionList = [...list.slice(1).map((l) => l.name)];
+			const suffixes: Dafny.Suffix[] = [];
+			let memberType: Type = type;
+
+			for (const member of expressionList) {
+				memberType = memberType.members.find((m) => m.name === member);
+
+				if (!memberType) {
+					throw new Error("Member type not found");
+				}
+
+				if(memberType.replaceProperty) {
+					return memberType.replaceProperty(createNameSegment(list[0].name, suffixes));
+				}
+
+				suffixes.push(createSuffix(createAugmentedDotSuffix_(createDotSuffix(member))));
+			}
+
+			return createNameSegment(list[0].name, suffixes);
 		}
 		else if (node.type === "CallExpression") {
 			if (node.callee.type === "MemberExpression") {
@@ -59,10 +84,12 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expressi
 					const argument = this.checkProofMapValidArguments();
 
 					if(property.name === 'requires') {
-						this.context.requires.push(argument);
+						const expression = this.mapMethodSpecArrowFunction(argument, false);
+						this.context.methodSpec.push(createRequiresClause(expression));
 					}
 					else if (property.name === 'ensures') {
-						this.context.ensures.push(argument);
+						const expression = this.mapMethodSpecArrowFunction(argument, true);
+						this.context.methodSpec.push(createEnsuresClause(expression));
 					}
 
 					return;
@@ -75,7 +102,12 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expressi
 			const operator = node.operator;
 			this.checkAllowedOperators(operator, ["&&", "||"]);
 
-			const {value, operations} = this.mapLeftRight<Dafny.RelationalExpression,Dafny.LogOp>(node, createLogOp(operator as Dafny.LogOpValue));
+			const {value, operations} = this.mapLeftRight<Dafny.RelationalExpression,Dafny.LogOp>(
+				node, 
+				createLogOp(operator as Dafny.LogOpValue),
+				"LogicalExpression",
+				"RelationalExpression"
+			);
 
 			return createLogicalExpression(value, operations);
 		}
@@ -86,11 +118,49 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expressi
 			});
 			this.checkAllowedOperators(operator, ["===", "==", "!==", "!=", "<=", "<", ">=", ">"]);
 
-			const {value, operations} = this.mapLeftRight<Dafny.ShiftTerm,Dafny.RelOp>(node, createRelOp(operator as Dafny.RelOpValue));
+			const {value, operations} = this.mapLeftRight<Dafny.ShiftTerm,Dafny.RelOp>(
+				node, 
+				createRelOp(operator as Dafny.RelOpValue),
+				"RelationalExpression",
+				"ShiftTerm"
+			);
+
+			return createRelationalExpression(value, operations);
 		}
 	}
 
-	mapLeftRight<T,U>(node: TSESTree.LogicalExpression|TSESTree.BinaryExpression, operator: U): {value: T[], operations: U[]} {
+	mapMethodSpecArrowFunction(node: TSESTree.ArrowFunctionExpression, setOutput: boolean): Dafny.Expression {
+		const param = node.params[0];
+
+		if (!setOutput && param) {
+			if (param.type !== "Identifier") {
+				throw new Error("Only Identifier is allowed as parameter");
+			}
+			
+			this.context.variables.add(createVariable(param.name, "pm_Output"));
+			this.context.types.add(createTypeProperty("pm_Output", [], () => createNameSegment(this.options.defaultReturnsName)));
+		}
+
+		if (!node.expression) {
+			throw new Error("Only expression is allowed as body");
+		}
+
+		const mapper = new ExpressionMapper(node.body as TSESTree.Expression, this.options, this.context);
+		const value = mapper.map();
+
+		if (!value) {
+			throw new Error("Value must be defined");
+		}
+
+		return value;
+	}
+
+	mapLeftRight<T,U>(
+		node: TSESTree.LogicalExpression|TSESTree.BinaryExpression, 
+		operator: U, 
+		toType: "LogicalExpression"|"RelationalExpression", 
+		valueType: "RelationalExpression"|"ShiftTerm"
+	): {value: T[], operations: U[]} {
 		if (node.left.type === "PrivateIdentifier") {
 			throw new Error("PrivateIdentifier is not allowed");
 		}
@@ -104,109 +174,51 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expressi
 		const value: T[] = [];
 		const operations: U[] = [];
 
-		if (left.type === "LogicalExpression") {
+		if (left.type === toType) {
 			value.push(...(left.value as T[]));
 			operations.push(...(left.operations as U[]));
 		}
-		else if(this.order(left.type) >= this.order("RelationalExpression")) {
+		else if(expressionOrder(left.type) >= expressionOrder(valueType)) {
 			throw new Error(`The child ${left.type} is not allowed for RelationalExpression`);
 		}
 		else {
-			value.push(this.createTo(left, "RelationalExpression"));
+			value.push(createTo(left, valueType));
 		}
 
 		operations.push(operator as U);
 
-		if (right.type === "LogicalExpression") {
+		if (right.type === toType) {
 			value.push(...(right.value as T[]));
 			operations.push(...(right.operations as U[]));
 		}
-		else if(this.order(right.type) >= this.order("RelationalExpression")) {
+		else if(expressionOrder(right.type) >= expressionOrder(valueType)) {
 			throw new Error(`The child ${right.type} is not allowed for RelationalExpression`);
 		}
 		else {
-			value.push(this.createTo(right, "RelationalExpression"));
+			value.push(createTo(right, valueType));
 		}
 		
 		return {value, operations};
 	}
 
-	order(to: string) {
-		let i = 0;
-		return {
-			"ConstAtomExpression": i,
-			"NameSegment": i++,
-			"PrimaryExpression": i++,
-			"UnaryExpression":  i++,
-			"AsExpression": i++,
-			"BitvectorFactor": i++,
-			"Factor": i++,
-			"Term": i++,
-			"ShiftTerm": i++,
-			"RelationalExpression": i++,
-			"LogicalExpression": i++,
-			"ImpliesExpliesExpression": i++,
-			"EquivExpression": i++,
-			"Expression": i++,
-		}[to];
-	}
+	getListFromMemberExpression(node: TSESTree.MemberExpression): TSESTree.Identifier[] {
+		const list: TSESTree.Identifier[] = [];
 
-	createTo<T>(from: Dafny.RhsValue, to: string): T {
-		let value = from;
-		const order = this.order(to);
-
-		if (value.type === "NameSegment" && order > this.order("NameSegment")) {
-			value = createPrimaryExpression(value);
+		if (node.object.type === "Identifier") {
+			list.push(node.object);
 		}
-		else if (value.type === "ConstAtomExpression" && order > this.order("ConstAtomExpression")) {
-			value = createPrimaryExpression(value);
+		else if (node.object.type === "MemberExpression") {
+			list.push(...this.getListFromMemberExpression(node.object));
+		}
+		else {
+			return [];
 		}
 
-		if (value.type === "PrimaryExpression" && order > this.order("PrimaryExpression")) {
-			value = createUnaryExpression(value);
+		if (node.property.type === "Identifier") {
+			list.push(node.property);
 		}
 
-		if (value.type === "UnaryExpression" && order > this.order("UnaryExpression")) {
-			value = createAsExpression(value);
-		}
-
-		if (value.type === "AsExpression" && order > this.order("AsExpression")) {
-			value = createBitvectorFactor([value], []);
-		}
-
-		if (value.type === "BitvectorFactor" && order > this.order("BitvectorFactor")) {
-			value = createFactor([value], []);
-		}
-
-		if (value.type === "Factor" && order > this.order("Factor")) {
-			value = createTerm([value], []);
-		}
-
-		if (value.type === "Term" && order > this.order("Term")) {
-			value = createShiftTerm([value], []);
-		}
-
-		if (value.type === "ShiftTerm" && order > this.order("ShiftTerm")) {
-			value = createRelationalExpression([value], []);
-		}
-
-		if (value.type === "RelationalExpression" && order > this.order("RelationalExpression")) {
-			value = createLogicalExpression([value], []);
-		}
-
-		if (value.type === "LogicalExpression" && order > this.order("LogicalExpression")) {
-			value = createImpliesExpliesExpression(value);
-		}
-
-		if (value.type === "ImpliesExpliesExpression" && order > this.order("ImpliesExpliesExpression")) {
-			value = createEquivExpression([value]);
-		}
-
-		if (value.type === "EquivExpression" && order > this.order("EquivExpression")) {
-			value = createExpression(value);
-		}
-
-		return value as T;
+		return list;
 	}
 
 	checkAllowedOperators(operator: string, operators: string[]) {

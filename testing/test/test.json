@@ -111,10 +111,9 @@
 													"type": "ArrowFunctionExpression",
 													"async": false,
 													"body": {
-														"type": "Identifier",
-														"decorators": [],
-														"name": "out",
-														"optional": false
+														"type": "Literal",
+														"raw": "true",
+														"value": true
 													},
 													"expression": true,
 													"generator": false,
@@ -142,7 +141,7 @@
 												"property": {
 													"type": "Identifier",
 													"decorators": [],
-													"name": "requires",
+													"name": "ensures",
 													"optional": false
 												}
 											},
@@ -150,50 +149,19 @@
 										}
 									},
 									{
-										"type": "VariableDeclaration",
-										"declarations": [
-											{
-												"type": "VariableDeclarator",
-												"definite": false,
-												"id": {
-													"type": "Identifier",
-													"decorators": [],
-													"name": "test",
-													"optional": false
-												},
-												"init": {
-													"type": "Literal",
-													"raw": "\"test\"",
-													"value": "test"
-												}
-											}
-										],
-										"declare": false,
-										"kind": "let"
-									},
-									{
 										"type": "ReturnStatement",
 										"argument": {
-											"type": "LogicalExpression",
-											"operator": "&&",
+											"type": "BinaryExpression",
+											"operator": ">",
 											"left": {
 												"type": "Literal",
-												"raw": "true",
-												"value": true
+												"raw": "0",
+												"value": 0
 											},
 											"right": {
-												"type": "LogicalExpression",
-												"operator": "&&",
-												"left": {
-													"type": "Literal",
-													"raw": "true",
-													"value": true
-												},
-												"right": {
-													"type": "Literal",
-													"raw": "true",
-													"value": true
-												}
+												"type": "Literal",
+												"raw": "0",
+												"value": 0
 											}
 										}
 									}
@@ -224,6 +192,128 @@
 			},
 			"implements": [],
 			"superClass": null
+		},
+		{
+			"type": "FunctionDeclaration",
+			"async": false,
+			"body": {
+				"type": "BlockStatement",
+				"body": [
+					{
+						"type": "VariableDeclaration",
+						"declarations": [
+							{
+								"type": "VariableDeclarator",
+								"definite": false,
+								"id": {
+									"type": "Identifier",
+									"decorators": [],
+									"name": "pm",
+									"optional": false
+								},
+								"init": {
+									"type": "NewExpression",
+									"arguments": [],
+									"callee": {
+										"type": "Identifier",
+										"decorators": [],
+										"name": "ProofMap",
+										"optional": false
+									},
+									"typeArguments": {
+										"type": "TSTypeParameterInstantiation",
+										"params": [
+											{
+												"type": "TSTypeQuery",
+												"exprName": {
+													"type": "Identifier",
+													"decorators": [],
+													"name": "test2",
+													"optional": false
+												}
+											}
+										]
+									}
+								}
+							}
+						],
+						"declare": false,
+						"kind": "const"
+					},
+					{
+						"type": "ExpressionStatement",
+						"expression": {
+							"type": "CallExpression",
+							"arguments": [
+								{
+									"type": "ArrowFunctionExpression",
+									"async": false,
+									"body": {
+										"type": "Literal",
+										"raw": "true",
+										"value": true
+									},
+									"expression": true,
+									"generator": false,
+									"id": null,
+									"params": []
+								}
+							],
+							"callee": {
+								"type": "MemberExpression",
+								"computed": false,
+								"object": {
+									"type": "Identifier",
+									"decorators": [],
+									"name": "pm",
+									"optional": false
+								},
+								"optional": false,
+								"property": {
+									"type": "Identifier",
+									"decorators": [],
+									"name": "requires",
+									"optional": false
+								}
+							},
+							"optional": false
+						}
+					},
+					{
+						"type": "ReturnStatement",
+						"argument": {
+							"type": "BinaryExpression",
+							"operator": ">",
+							"left": {
+								"type": "Literal",
+								"raw": "1",
+								"value": 1
+							},
+							"right": {
+								"type": "Literal",
+								"raw": "0",
+								"value": 0
+							}
+						}
+					}
+				]
+			},
+			"declare": false,
+			"expression": false,
+			"generator": false,
+			"id": {
+				"type": "Identifier",
+				"decorators": [],
+				"name": "test2",
+				"optional": false
+			},
+			"params": [],
+			"returnType": {
+				"type": "TSTypeAnnotation",
+				"typeAnnotation": {
+					"type": "TSBooleanKeyword"
+				}
+			}
 		}
 	],
 	"sourceType": "module"

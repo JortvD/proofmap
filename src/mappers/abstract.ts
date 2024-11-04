@@ -1,6 +1,7 @@
 import { TSESTree } from "@typescript-eslint/typescript-estree";
 import VariableStore from "../store/variable";
 import TypeStore from "../store/type";
+import { Dafny } from "../types";
 
 export interface MapOptions {
 	defaultReturnsName: string;
@@ -10,8 +11,7 @@ export interface MapContext {
 	variables: VariableStore;
 	types: TypeStore;
 	moduleName: string;
-	requires: TSESTree.ArrowFunctionExpression[];
-	ensures: TSESTree.ArrowFunctionExpression[];
+	methodSpec: Dafny.MethodSpecValue[];
 }
 
 abstract class AbstractMapper<T,U> {

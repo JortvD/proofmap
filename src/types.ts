@@ -12,8 +12,9 @@ export namespace Dafny {
 	// 17.2.1.2. Top-level declarations
 	export interface TopDecl extends Grammar {
 		type: "TopDecl";
-		value: SubModuleDecl|ClassDecl;
+		value: TopDeclValue;
 	}
+	export type TopDeclValue = SubModuleDecl|ClassDecl|ClassMemberDecl;
 
 	// 17.2.2. Modules
 	export interface SubModuleDecl extends Grammar {
@@ -101,8 +102,9 @@ export namespace Dafny {
 	// 17.2.5.1. Method specifications
 	export interface MethodSpec extends Grammar {
 		type: "MethodSpec";
-		value: (RequiresClause|EnsuresClause)[];
+		value: MethodSpecValue[];
 	}
+	export type MethodSpecValue = RequiresClause|EnsuresClause;
 
 	// 17.2.5.6. Requires clauses
 	export interface RequiresClause extends Grammar {
@@ -291,24 +293,52 @@ export namespace Dafny {
 
 	export type RhsValue = Expression|EquivExpression|ImpliesExpliesExpression|LogicalExpression|RelationalExpression|ShiftTerm|Term|Factor|BitvectorFactor|AsExpression|UnaryExpression|PrimaryExpression|ConstAtomExpression|NameSegment;
 
+	// 17.2.7.19. Atomic expressions
 	export interface ConstAtomExpression extends Grammar {
 		type: "ConstAtomExpression";
-		value: LiteralExpression;
+		value: ConstAtomExpressionValue;
 	}
+	export type ConstAtomExpressionValue = LiteralExpression|CardinalityExpression_;
 
+	// 17.2.7.20. Literal expressions
 	export interface LiteralExpression extends Grammar {
 		type: "LiteralExpression";
 		value: LiteralExpressionValue;
 	}
 	export type LiteralExpressionValue = "false"|"true"|"null"|number|bigint|string;
 
+	// 17.2.7.26. Cardinality Expressions
+	export interface CardinalityExpression_ extends Grammar {
+		type: "CardinalityExpression_";
+		value: Expression;
+	}
+
 	// 17.2.7.40. Name Segment
 	export interface NameSegment extends Grammar {
 		type: "NameSegment";
 		value: string;
+		suffixes: Suffix[];
+	}
+
+	// 17.2.7.42. Suffix
+	export interface Suffix extends Grammar {
+		type: "Suffix";
+		value: SuffixValue;
+	}
+	export type SuffixValue = AugmentedDotSuffix_;
+
+	// 17.2.7.43. Augmented Dot Suffix
+	export interface AugmentedDotSuffix_ extends Grammar {
+		type: "AugmentedDotSuffix_";
+		value: DotSuffix;
 	}
 
 	// 17.2.7.53. Basic name and type combinations
+	export interface DotSuffix extends Grammar {
+		type: "DotSuffix";
+		value: string;
+	}
+
 	export interface IdentType extends Grammar {
 		type: "IdentType";
 		name: string;

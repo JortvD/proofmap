@@ -5,7 +5,8 @@ export function createMethodDecl(
 	keyword: Dafny.MethodKeywordValue,
 	value: Dafny.BlockStmt,
 	parameters: Dafny.Formals,
-	returns: Dafny.Formals
+	returns: Dafny.Formals,
+	specification: Dafny.MethodSpecValue[] = []
 ): Dafny.MethodDecl {
 	return {
 		type: "MethodDecl",
@@ -14,12 +15,33 @@ export function createMethodDecl(
 			value: keyword,
 		},
 		name,
-		specification: undefined,
+		specification: {
+			type: "MethodSpec",
+			value: specification
+		},
 		signature: {
 			type: "MethodSignature_",
 			parameters: parameters,
 			returns,
 		},
+		value,
+	};
+}
+
+export function createRequiresClause(
+	value: Dafny.Expression
+): Dafny.RequiresClause {
+	return {
+		type: "RequiresClause",
+		value,
+	};
+}
+
+export function createEnsuresClause(
+	value: Dafny.Expression
+): Dafny.EnsuresClause {
+	return {
+		type: "EnsuresClause",
 		value,
 	};
 }
@@ -167,11 +189,33 @@ export function createLhs(value: Dafny.NameSegment): Dafny.Lhs {
 	};
 }
 
-export function createNameSegment(value: string): Dafny.NameSegment {
+export function createNameSegment(value: string, suffixes: Dafny.Suffix[] = []): Dafny.NameSegment {
 	return {
 		type: "NameSegment",
 		value,
+		suffixes,
 	};
+}
+
+export function createSuffix(value: Dafny.SuffixValue): Dafny.Suffix {
+	return {
+		type: "Suffix",
+		value,
+	};
+}
+
+export function createAugmentedDotSuffix_(value: Dafny.DotSuffix): Dafny.AugmentedDotSuffix_ {
+	return {
+		type: "AugmentedDotSuffix_",
+		value,
+	};
+}
+
+export function createDotSuffix(value: string): Dafny.DotSuffix {
+	return {
+		type: "DotSuffix",
+		value,
+	}
 }
 
 export function createDafny(value: Dafny.TopDecl[]): Dafny.Dafny {
@@ -182,7 +226,7 @@ export function createDafny(value: Dafny.TopDecl[]): Dafny.Dafny {
 }
 
 export function createTopDecl(
-	value: Dafny.ClassDecl | Dafny.SubModuleDecl
+	value: Dafny.TopDeclValue
 ): Dafny.TopDecl {
 	return {
 		type: "TopDecl",
@@ -353,10 +397,97 @@ export function createRelOp(
 }
 
 export function createConstAtomExpression(
-	value: Dafny.LiteralExpression
+	value: Dafny.ConstAtomExpressionValue
 ): Dafny.ConstAtomExpression {
 	return {
 		type: "ConstAtomExpression",
 		value,
 	};
+}
+
+export function createCardinalityExpression_(
+	value: Dafny.Expression
+): Dafny.CardinalityExpression_ {
+	return {
+		type: "CardinalityExpression_",
+		value,
+	};
+}
+
+export function expressionOrder(to: string) {
+	let i = 0;
+	return {
+		"ConstAtomExpression": i,
+		"NameSegment": i++,
+		"PrimaryExpression": i++,
+		"UnaryExpression":  i++,
+		"AsExpression": i++,
+		"BitvectorFactor": i++,
+		"Factor": i++,
+		"Term": i++,
+		"ShiftTerm": i++,
+		"RelationalExpression": i++,
+		"LogicalExpression": i++,
+		"ImpliesExpliesExpression": i++,
+		"EquivExpression": i++,
+		"Expression": i++,
+	}[to];
+}
+
+export function createTo<T>(from: Dafny.RhsValue, to: string): T {
+	let value = from;
+	const order = expressionOrder(to);
+
+	if (value.type === "NameSegment" && order > expressionOrder("NameSegment")) {
+		value = createPrimaryExpression(value);
+	}
+	else if (value.type === "ConstAtomExpression" && order > expressionOrder("ConstAtomExpression")) {
+		value = createPrimaryExpression(value);
+	}
+
+	if (value.type === "PrimaryExpression" && order > expressionOrder("PrimaryExpression")) {
+		value = createUnaryExpression(value);
+	}
+
+	if (value.type === "UnaryExpression" && order > expressionOrder("UnaryExpression")) {
+		value = createAsExpression(value);
+	}
+
+	if (value.type === "AsExpression" && order > expressionOrder("AsExpression")) {
+		value = createBitvectorFactor([value], []);
+	}
+
+	if (value.type === "BitvectorFactor" && order > expressionOrder("BitvectorFactor")) {
+		value = createFactor([value], []);
+	}
+
+	if (value.type === "Factor" && order > expressionOrder("Factor")) {
+		value = createTerm([value], []);
+	}
+
+	if (value.type === "Term" && order > expressionOrder("Term")) {
+		value = createShiftTerm([value], []);
+	}
+
+	if (value.type === "ShiftTerm" && order > expressionOrder("ShiftTerm")) {
+		value = createRelationalExpression([value], []);
+	}
+
+	if (value.type === "RelationalExpression" && order > expressionOrder("RelationalExpression")) {
+		value = createLogicalExpression([value], []);
+	}
+
+	if (value.type === "LogicalExpression" && order > expressionOrder("LogicalExpression")) {
+		value = createImpliesExpliesExpression(value);
+	}
+
+	if (value.type === "ImpliesExpliesExpression" && order > expressionOrder("ImpliesExpliesExpression")) {
+		value = createEquivExpression([value]);
+	}
+
+	if (value.type === "EquivExpression" && order > expressionOrder("EquivExpression")) {
+		value = createExpression(value);
+	}
+
+	return value as T;
 }

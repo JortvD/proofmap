@@ -21,7 +21,7 @@ class VariableDeclarationMapper extends AbstractMapper<TSESTree.VariableDeclarat
 
 				if (this.shouldSkipDeclarator(type)) continue;
 
-				if (!this.context.types.knows(type)) {
+				if (!this.context.types.get(type)) {
 					throw new Error(`Unknown type ${type}`);
 				}
 

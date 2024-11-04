@@ -3,10 +3,15 @@ import { ProofMap } from "../../lib";
 class Test {
 	test(): boolean {
 		const pm = new ProofMap<typeof this.test>();
-		pm.requires(out => out);
+		pm.ensures(out => true);
 
-		let test = "test";
-
-		return true && (true && true);
+		return 0 > 0;
 	}
+}
+
+function test2(): boolean {
+	const pm = new ProofMap<typeof test2>();
+	pm.requires(() => true);
+
+	return 1 > 0;
 }

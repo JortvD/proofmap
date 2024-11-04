@@ -2,12 +2,14 @@ import { TSESTree } from "@typescript-eslint/typescript-estree";
 import AbstractMapper, { MapContext, MapOptions } from "./abstract";
 import BlockStatementMapper from "./blockStatement";
 import { Dafny } from "../types";
-import { createBoolType_, createDomainType_, createFormals, createGIndentType, createIndentType, createMethodDecl, createStringType_, createType } from "../typeCreate";
+import { createBoolType_, createClassMemberDecl, createDomainType_, createFormals, createGIndentType, createIndentType, createMethodDecl, createStringType_, createType } from "../typeCreate";
 
-abstract class AbstractFunctionMapper<T extends TSESTree.FunctionDeclaration|TSESTree.FunctionExpression> extends AbstractMapper<T,Dafny.MethodDecl> {
+abstract class AbstractFunctionMapper<T extends TSESTree.FunctionDeclaration|TSESTree.FunctionExpression> extends AbstractMapper<T,Dafny.ClassMemberDecl> {
 	id?: TSESTree.Identifier;
 
 	constructor(node: T, options: MapOptions, context: MapContext, id?: TSESTree.Identifier) {
+		context.methodSpec = [];
+		context.types = context.types.getCopy();
 		super(node, options, context);
 		this.id = id;
 	}
@@ -29,7 +31,7 @@ abstract class AbstractFunctionMapper<T extends TSESTree.FunctionDeclaration|TSE
 			}
 		}
 
-		return createMethodDecl(id.name, "method", value, createFormals(parameters), createFormals(returns));
+		return createClassMemberDecl(createMethodDecl(id.name, "method", value, createFormals(parameters), createFormals(returns), this.context.methodSpec));
 	}
 
 	returnType(): Dafny.Type|undefined {

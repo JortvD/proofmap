@@ -1,26 +1,28 @@
-export interface TypeMember {
+import { createCardinalityExpression_, createConstAtomExpression, createExpression, createPrimaryExpression, createTo } from "../typeCreate";
+import { Dafny } from "../types";
+
+export interface Type {
+	type: "property"|"function"|"group";
 	name: string;
-	known: boolean;
-	members: TypeMember[];
-	mapsTo?: (o: string) => string;
+	members: Type[];
+	replaceProperty?: (parent: Dafny.RhsValue) => Dafny.RhsValue;
+	replaceFunction?: (parent: Dafny.RhsValue, params: Dafny.RhsValue[]) => Dafny.RhsValue;
 }
 
-export interface Type extends Omit<TypeMember, "mapsTo"> {}
-
-export function createType(name: string, known: boolean, members: TypeMember[] = []): Type {
+export function createType(name: string, members: Type[] = []): Type {
 	return {
+		type: "group",
 		name,
-		known,
 		members,
 	};
 }
 
-export function createTypeMember(name: string, known: boolean, members: TypeMember[] = [], mapsTo?: (o: string) => string): TypeMember {
+export function createTypeProperty(name: string,members: Type[] = [], replaceProperty?: (from: Dafny.RhsValue) => Dafny.RhsValue): Type {
 	return {
+		type: "property",
 		name,
-		known,
 		members,
-		mapsTo,
+		replaceProperty,
 	};
 }
 
@@ -28,11 +30,12 @@ class TypeStore {
 	types: Type[] = [];
 
 	constructor() {
-		this.add(createType("string", true, [
-			createTypeMember("length", true, [], o => `${o}.Length`),
+		this.add(createType("string", [
+			createTypeProperty("length", [], 
+				parent => createConstAtomExpression(createCardinalityExpression_(createTo<Dafny.Expression>(parent, "Expression")))),
 		]));
-		this.add(createType("number", true));
-		this.add(createType("boolean", true));
+		this.add(createType("number"));
+		this.add(createType("boolean"));
 	}
 	
 	add(type: Type): void {
@@ -40,28 +43,14 @@ class TypeStore {
 		this.types.push(type);
 	}
 
-	knows(type: string): boolean {
-		return this.types.find((t) => t.name === type)?.known;
+	get(type: string): Type|undefined {
+		return this.types.find((t) => t.name === type);
 	}
 
-	knowsDeep(types: string[]): boolean {
-		const type = this.types.find((t) => t.name === types[0]);
-
-		if (!type) return false;
-
-		if (types.length === 1) return type.known;
-
-		return this.knowsDeepMember(type, types.slice(1));
-	}
-
-	knowsDeepMember(type: Type, types: string[]): boolean {
-		const member = type.members.find((m) => m.name === types[0]);
-
-		if (!member) return false;
-
-		if (types.length === 1) return member.known;
-
-		return this.knowsDeepMember(member, types.slice(1));
+	getCopy(): TypeStore {
+		const store = new TypeStore();
+		store.types = [...this.types];
+		return store;
 	}
 }
 

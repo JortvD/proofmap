@@ -24,6 +24,77 @@
 												"value": "method"
 											},
 											"name": "test",
+											"specification": {
+												"type": "MethodSpec",
+												"value": [
+													{
+														"type": "EnsuresClause",
+														"value": {
+															"type": "Expression",
+															"value": {
+																"type": "EquivExpression",
+																"value": [
+																	{
+																		"type": "ImpliesExpliesExpression",
+																		"value": {
+																			"type": "LogicalExpression",
+																			"value": [
+																				{
+																					"type": "RelationalExpression",
+																					"value": [
+																						{
+																							"type": "ShiftTerm",
+																							"value": [
+																								{
+																									"type": "Term",
+																									"value": [
+																										{
+																											"type": "Factor",
+																											"value": [
+																												{
+																													"type": "BitvectorFactor",
+																													"value": [
+																														{
+																															"type": "AsExpression",
+																															"value": {
+																																"type": "UnaryExpression",
+																																"value": {
+																																	"type": "PrimaryExpression",
+																																	"value": {
+																																		"type": "ConstAtomExpression",
+																																		"value": {
+																																			"type": "LiteralExpression",
+																																			"value": "true"
+																																		}
+																																	}
+																																}
+																															}
+																														}
+																													],
+																													"operations": []
+																												}
+																											],
+																											"operations": []
+																										}
+																									],
+																									"operations": []
+																								}
+																							],
+																							"operations": []
+																						}
+																					],
+																					"operations": []
+																				}
+																			],
+																			"operations": []
+																		}
+																	}
+																]
+															}
+														}
+													}
+												]
+											},
 											"signature": {
 												"type": "MethodSignature_",
 												"parameters": {
@@ -56,83 +127,6 @@
 											"value": {
 												"type": "BlockStmt",
 												"value": [
-													{
-														"type": "Stmt",
-														"value": {
-															"type": "VarDeclStatement",
-															"key": [
-																"test"
-															],
-															"init": [
-																{
-																	"type": "Rhs",
-																	"value": {
-																		"type": "Expression",
-																		"value": {
-																			"type": "EquivExpression",
-																			"value": [
-																				{
-																					"type": "ImpliesExpliesExpression",
-																					"value": {
-																						"type": "LogicalExpression",
-																						"value": [
-																							{
-																								"type": "RelationalExpression",
-																								"value": [
-																									{
-																										"type": "ShiftTerm",
-																										"value": [
-																											{
-																												"type": "Term",
-																												"value": [
-																													{
-																														"type": "Factor",
-																														"value": [
-																															{
-																																"type": "BitvectorFactor",
-																																"value": [
-																																	{
-																																		"type": "AsExpression",
-																																		"value": {
-																																			"type": "UnaryExpression",
-																																			"value": {
-																																				"type": "PrimaryExpression",
-																																				"value": {
-																																					"type": "ConstAtomExpression",
-																																					"value": {
-																																						"type": "LiteralExpression",
-																																						"value": "test"
-																																					}
-																																				}
-																																			}
-																																		}
-																																	}
-																																],
-																																"operations": []
-																															}
-																														],
-																														"operations": []
-																													}
-																												],
-																												"operations": []
-																											}
-																										],
-																										"operations": []
-																									}
-																								],
-																								"operations": []
-																							}
-																						],
-																						"operations": []
-																					}
-																				}
-																			]
-																		}
-																	}
-																}
-															]
-														}
-													},
 													{
 														"type": "Stmt",
 														"value": {
@@ -175,7 +169,7 @@
 																																					"type": "ConstAtomExpression",
 																																					"value": {
 																																						"type": "LiteralExpression",
-																																						"value": "true"
+																																						"value": 0
 																																					}
 																																				}
 																																			}
@@ -192,13 +186,7 @@
 																											}
 																										],
 																										"operations": []
-																									}
-																								],
-																								"operations": []
-																							},
-																							{
-																								"type": "RelationalExpression",
-																								"value": [
+																									},
 																									{
 																										"type": "ShiftTerm",
 																										"value": [
@@ -221,7 +209,7 @@
 																																					"type": "ConstAtomExpression",
 																																					"value": {
 																																						"type": "LiteralExpression",
-																																						"value": "true"
+																																						"value": 0
 																																					}
 																																				}
 																																			}
@@ -240,41 +228,232 @@
 																										"operations": []
 																									}
 																								],
-																								"operations": []
-																							},
+																								"operations": [
+																									{
+																										"type": "RelOp",
+																										"value": ">"
+																									}
+																								]
+																							}
+																						],
+																						"operations": []
+																					}
+																				}
+																			]
+																		}
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"type": "TopDecl",
+							"value": {
+								"type": "ClassMemberDecl",
+								"value": {
+									"type": "MethodDecl",
+									"keyword": {
+										"type": "MethodKeyword",
+										"value": "method"
+									},
+									"name": "test2",
+									"specification": {
+										"type": "MethodSpec",
+										"value": [
+											{
+												"type": "RequiresClause",
+												"value": {
+													"type": "Expression",
+													"value": {
+														"type": "EquivExpression",
+														"value": [
+															{
+																"type": "ImpliesExpliesExpression",
+																"value": {
+																	"type": "LogicalExpression",
+																	"value": [
+																		{
+																			"type": "RelationalExpression",
+																			"value": [
+																				{
+																					"type": "ShiftTerm",
+																					"value": [
+																						{
+																							"type": "Term",
+																							"value": [
+																								{
+																									"type": "Factor",
+																									"value": [
+																										{
+																											"type": "BitvectorFactor",
+																											"value": [
+																												{
+																													"type": "AsExpression",
+																													"value": {
+																														"type": "UnaryExpression",
+																														"value": {
+																															"type": "PrimaryExpression",
+																															"value": {
+																																"type": "ConstAtomExpression",
+																																"value": {
+																																	"type": "LiteralExpression",
+																																	"value": "true"
+																																}
+																															}
+																														}
+																													}
+																												}
+																											],
+																											"operations": []
+																										}
+																									],
+																									"operations": []
+																								}
+																							],
+																							"operations": []
+																						}
+																					],
+																					"operations": []
+																				}
+																			],
+																			"operations": []
+																		}
+																	],
+																	"operations": []
+																}
+															}
+														]
+													}
+												}
+											}
+										]
+									},
+									"signature": {
+										"type": "MethodSignature_",
+										"parameters": {
+											"type": "Formals",
+											"value": []
+										},
+										"returns": {
+											"type": "Formals",
+											"value": [
+												{
+													"type": "GIdentType",
+													"value": {
+														"type": "IdentType",
+														"name": "pm_output",
+														"type_": {
+															"type": "Type",
+															"value": {
+																"type": "DomainType_",
+																"value": {
+																	"type": "BoolType_",
+																	"value": "bool"
+																}
+															}
+														}
+													}
+												}
+											]
+										}
+									},
+									"value": {
+										"type": "BlockStmt",
+										"value": [
+											{
+												"type": "Stmt",
+												"value": {
+													"type": "ReturnStmt",
+													"value": [
+														{
+															"type": "Rhs",
+															"value": {
+																"type": "Expression",
+																"value": {
+																	"type": "EquivExpression",
+																	"value": [
+																		{
+																			"type": "ImpliesExpliesExpression",
+																			"value": {
+																				"type": "LogicalExpression",
+																				"value": [
+																					{
+																						"type": "RelationalExpression",
+																						"value": [
 																							{
-																								"type": "RelationalExpression",
+																								"type": "ShiftTerm",
 																								"value": [
 																									{
-																										"type": "ShiftTerm",
+																										"type": "Term",
 																										"value": [
 																											{
-																												"type": "Term",
+																												"type": "Factor",
 																												"value": [
 																													{
-																														"type": "Factor",
+																														"type": "BitvectorFactor",
 																														"value": [
 																															{
-																																"type": "BitvectorFactor",
-																																"value": [
-																																	{
-																																		"type": "AsExpression",
+																																"type": "AsExpression",
+																																"value": {
+																																	"type": "UnaryExpression",
+																																	"value": {
+																																		"type": "PrimaryExpression",
 																																		"value": {
-																																			"type": "UnaryExpression",
+																																			"type": "ConstAtomExpression",
 																																			"value": {
-																																				"type": "PrimaryExpression",
-																																				"value": {
-																																					"type": "ConstAtomExpression",
-																																					"value": {
-																																						"type": "LiteralExpression",
-																																						"value": "true"
-																																					}
-																																				}
+																																				"type": "LiteralExpression",
+																																				"value": 1
 																																			}
 																																		}
 																																	}
-																																],
-																																"operations": []
+																																}
+																															}
+																														],
+																														"operations": []
+																													}
+																												],
+																												"operations": []
+																											}
+																										],
+																										"operations": []
+																									}
+																								],
+																								"operations": []
+																							},
+																							{
+																								"type": "ShiftTerm",
+																								"value": [
+																									{
+																										"type": "Term",
+																										"value": [
+																											{
+																												"type": "Factor",
+																												"value": [
+																													{
+																														"type": "BitvectorFactor",
+																														"value": [
+																															{
+																																"type": "AsExpression",
+																																"value": {
+																																	"type": "UnaryExpression",
+																																	"value": {
+																																		"type": "PrimaryExpression",
+																																		"value": {
+																																			"type": "ConstAtomExpression",
+																																			"value": {
+																																				"type": "LiteralExpression",
+																																				"value": 0
+																																			}
+																																		}
+																																	}
+																																}
 																															}
 																														],
 																														"operations": []
@@ -291,28 +470,25 @@
 																						],
 																						"operations": [
 																							{
-																								"type": "LogOp",
-																								"value": "&&"
-																							},
-																							{
-																								"type": "LogOp",
-																								"value": "&&"
+																								"type": "RelOp",
+																								"value": ">"
 																							}
 																						]
 																					}
-																				}
-																			]
+																				],
+																				"operations": []
+																			}
 																		}
-																	}
+																	]
 																}
-															]
+															}
 														}
-													}
-												]
+													]
+												}
 											}
-										}
+										]
 									}
-								]
+								}
 							}
 						}
 					]

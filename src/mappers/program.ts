@@ -5,6 +5,7 @@ import { Dafny } from "../types";
 import { createDafny, createModuleDefinition, createSubModuleDecl, createTopDecl } from "../typeCreate";
 import VariableStore from "../store/variable";
 import TypeStore from "../store/type";
+import FunctionDeclarationMapper from "./functionDeclaration";
 
 class ProgramMapper extends AbstractMapper<TSESTree.Program,Dafny.Dafny> {
 	fileName: string;
@@ -14,8 +15,7 @@ class ProgramMapper extends AbstractMapper<TSESTree.Program,Dafny.Dafny> {
 			variables: new VariableStore(),
 			types: new TypeStore(),
 			moduleName: "",
-			requires: [],
-			ensures: []
+			methodSpec: []
 		});
 		this.fileName = fileName;
 	}
@@ -28,6 +28,10 @@ class ProgramMapper extends AbstractMapper<TSESTree.Program,Dafny.Dafny> {
 		for (const statement of this.node.body) {
 			if (statement.type === "ClassDeclaration") {
 				const mapper = new ClassDeclarationMapper(statement, this.options, this.context);
+				value.push(createTopDecl(mapper.map()));
+			}
+			else if (statement.type === "FunctionDeclaration") {
+				const mapper = new FunctionDeclarationMapper(statement, this.options, this.context);
 				value.push(createTopDecl(mapper.map()));
 			}
 		}
