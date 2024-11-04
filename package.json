@@ -1,0 +1,29 @@
+{
+  "name": "proofmap",
+  "version": "0.0.1",
+  "description": "Automatically proof TS code correctness using Dafny",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc -w",
+    "build": "tsc",
+    "go": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JortvD/proofmap.git"
+  },
+  "author": "JortvD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JortvD/proofmap/issues"
+  },
+  "homepage": "https://github.com/JortvD/proofmap#readme",
+  "devDependencies": {
+    "@types/node": "^22.8.7",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@typescript-eslint/typescript-estree": "^8.12.2"
+  }
+}

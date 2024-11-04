@@ -1,0 +1,233 @@
+{
+	"type": "Program",
+	"body": [
+		{
+			"type": "ImportDeclaration",
+			"attributes": [],
+			"importKind": "value",
+			"source": {
+				"type": "Literal",
+				"raw": "\"../../lib\"",
+				"value": "../../lib"
+			},
+			"specifiers": [
+				{
+					"type": "ImportSpecifier",
+					"imported": {
+						"type": "Identifier",
+						"decorators": [],
+						"name": "ProofMap",
+						"optional": false
+					},
+					"importKind": "value",
+					"local": {
+						"type": "Identifier",
+						"decorators": [],
+						"name": "ProofMap",
+						"optional": false
+					}
+				}
+			]
+		},
+		{
+			"type": "ClassDeclaration",
+			"abstract": false,
+			"body": {
+				"type": "ClassBody",
+				"body": [
+					{
+						"type": "MethodDefinition",
+						"computed": false,
+						"decorators": [],
+						"key": {
+							"type": "Identifier",
+							"decorators": [],
+							"name": "test",
+							"optional": false
+						},
+						"kind": "method",
+						"optional": false,
+						"override": false,
+						"static": false,
+						"value": {
+							"type": "FunctionExpression",
+							"async": false,
+							"body": {
+								"type": "BlockStatement",
+								"body": [
+									{
+										"type": "VariableDeclaration",
+										"declarations": [
+											{
+												"type": "VariableDeclarator",
+												"definite": false,
+												"id": {
+													"type": "Identifier",
+													"decorators": [],
+													"name": "pm",
+													"optional": false
+												},
+												"init": {
+													"type": "NewExpression",
+													"arguments": [],
+													"callee": {
+														"type": "Identifier",
+														"decorators": [],
+														"name": "ProofMap",
+														"optional": false
+													},
+													"typeArguments": {
+														"type": "TSTypeParameterInstantiation",
+														"params": [
+															{
+																"type": "TSTypeQuery",
+																"exprName": {
+																	"type": "TSQualifiedName",
+																	"left": {
+																		"type": "ThisExpression"
+																	},
+																	"right": {
+																		"type": "Identifier",
+																		"decorators": [],
+																		"name": "test",
+																		"optional": false
+																	}
+																}
+															}
+														]
+													}
+												}
+											}
+										],
+										"declare": false,
+										"kind": "const"
+									},
+									{
+										"type": "ExpressionStatement",
+										"expression": {
+											"type": "CallExpression",
+											"arguments": [
+												{
+													"type": "ArrowFunctionExpression",
+													"async": false,
+													"body": {
+														"type": "BinaryExpression",
+														"operator": ">",
+														"left": {
+															"type": "MemberExpression",
+															"computed": false,
+															"object": {
+																"type": "Identifier",
+																"decorators": [],
+																"name": "out",
+																"optional": false
+															},
+															"optional": false,
+															"property": {
+																"type": "Identifier",
+																"decorators": [],
+																"name": "length",
+																"optional": false
+															}
+														},
+														"right": {
+															"type": "Literal",
+															"raw": "0",
+															"value": 0
+														}
+													},
+													"expression": true,
+													"generator": false,
+													"id": null,
+													"params": [
+														{
+															"type": "Identifier",
+															"decorators": [],
+															"name": "out",
+															"optional": false
+														}
+													]
+												}
+											],
+											"callee": {
+												"type": "MemberExpression",
+												"computed": false,
+												"object": {
+													"type": "Identifier",
+													"decorators": [],
+													"name": "pm",
+													"optional": false
+												},
+												"optional": false,
+												"property": {
+													"type": "Identifier",
+													"decorators": [],
+													"name": "requires",
+													"optional": false
+												}
+											},
+											"optional": false
+										}
+									},
+									{
+										"type": "VariableDeclaration",
+										"declarations": [
+											{
+												"type": "VariableDeclarator",
+												"definite": false,
+												"id": {
+													"type": "Identifier",
+													"decorators": [],
+													"name": "test",
+													"optional": false
+												},
+												"init": {
+													"type": "Literal",
+													"raw": "\"test\"",
+													"value": "test"
+												}
+											}
+										],
+										"declare": false,
+										"kind": "let"
+									},
+									{
+										"type": "ReturnStatement",
+										"argument": {
+											"type": "Identifier",
+											"decorators": [],
+											"name": "test",
+											"optional": false
+										}
+									}
+								]
+							},
+							"declare": false,
+							"expression": false,
+							"generator": false,
+							"id": null,
+							"params": [],
+							"returnType": {
+								"type": "TSTypeAnnotation",
+								"typeAnnotation": {
+									"type": "TSStringKeyword"
+								}
+							}
+						}
+					}
+				]
+			},
+			"declare": false,
+			"decorators": [],
+			"id": {
+				"type": "Identifier",
+				"decorators": [],
+				"name": "Test",
+				"optional": false
+			},
+			"implements": [],
+			"superClass": null
+		}
+	],
+	"sourceType": "module"
+}

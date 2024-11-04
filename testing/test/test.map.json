@@ -1,0 +1,60 @@
+{
+	"type": "Dafny",
+	"value": [
+		{
+			"type": "TopDecl",
+			"value": {
+				"type": "SubModuleDecl",
+				"value": {
+					"type": "ModuleDefinition",
+					"name": "test",
+					"value": [
+						{
+							"type": "TopDecl",
+							"value": {
+								"type": "ClassDecl",
+								"name": "Test",
+								"value": [
+									{
+										"type": "ClassMemberDecl",
+										"value": {
+											"type": "MethodDecl",
+											"keyword": {
+												"type": "MethodKeyword",
+												"value": "method"
+											},
+											"name": "test",
+											"value": {
+												"type": "BlockStmt",
+												"value": [
+													{
+														"type": "Stmt",
+														"value": {
+															"type": "VarDeclStatement",
+															"key": [
+																"test"
+															],
+															"init": [
+																{
+																	"type": "Rhs",
+																	"value": {
+																		"type": "LiteralExpression",
+																		"value": "test"
+																	}
+																}
+															]
+														}
+													}
+												]
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		}
+	]
+}
