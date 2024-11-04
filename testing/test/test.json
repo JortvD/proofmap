@@ -177,6 +177,11 @@
 											"type": "LogicalExpression",
 											"operator": "&&",
 											"left": {
+												"type": "Literal",
+												"raw": "true",
+												"value": true
+											},
+											"right": {
 												"type": "LogicalExpression",
 												"operator": "&&",
 												"left": {
@@ -189,11 +194,6 @@
 													"raw": "true",
 													"value": true
 												}
-											},
-											"right": {
-												"type": "Literal",
-												"raw": "true",
-												"value": true
 											}
 										}
 									}

@@ -1,3 +1,5 @@
+import { TSESTree } from "@typescript-eslint/typescript-estree";
+
 export interface Variable {
 	name: string;
 	type: string;
@@ -20,6 +22,18 @@ class VariableStore {
 
 	getType(name: string): string|undefined {
 		return this.variables.find((v) => v.name === name)?.type;
+	}
+
+	getTypeFromMemberExpression(node: TSESTree.MemberExpression): string|undefined {
+		if (node.object.type === "Identifier") {
+			return this.getType(node.object.name);
+		}
+		else if (node.object.type === "MemberExpression") {
+			return this.getTypeFromMemberExpression(node.object);
+		}
+		else {
+			return;
+		}
 	}
 }
 

@@ -179,36 +179,42 @@ export namespace Dafny {
 	export interface ImpliesExpression extends Grammar {
 		type: "ImpliesExpression";
 		left: LogicalExpression;
-		right?: LogicalExpression;
+		right?: ImpliesExpression;
 	}
 
 	export interface LogicalExpression extends Grammar {
 		type: "LogicalExpression";
-		value: LogicalExpressionValue[];
-		operations: ("&&"|"||")[];
+		value: RelationalExpression[];
+		operations: LogOp[];
 	}
-	export type LogicalExpressionValue = RelationalExpression | RelationalExpressionValue;
+
+	export interface LogOp extends Grammar {
+		type: "LogOp";
+		value: LogOpValue;
+	}
+
+	export type LogOpValue = "&&"|"||";
 
 	// 17.2.7.5. Relational expression
 	export interface RelationalExpression extends Grammar {
 		type: "RelationalExpression";
-		value: RelationalExpressionValue[];
+		value: ShiftTerm[];
 		operations: RelOp[];
 	}
-	export type RelationalExpressionValue = ShiftTerm | ShiftTermValue;
 
 	export interface RelOp extends Grammar {
 		type: "RelOp";
-		value: ("=="|"!="|"<="|"<"|">="|">"|"in"|"!in"|"!!");
+		value: RelOpValue;
 	}
+
+	export type RelOpValue = "=="|"!="|"<="|"<"|">="|">"|"in"|"!in"|"!!";
 
 	// 17.2.7.6. Bit-shift expression
 	export interface ShiftTerm extends Grammar {
 		type: "ShiftTerm";
-		value: ShiftTermValue[];
+		value: Term[];
 		operations: ShiftOp[];
 	}
-	export type ShiftTermValue = Term | TermValue;
 
 	export interface ShiftOp extends Grammar {
 		type: "ShiftOp";
@@ -218,10 +224,9 @@ export namespace Dafny {
 	// 17.2.7.7. Term (addition operations)
 	export interface Term extends Grammar {
 		type: "Term";
-		value: TermValue[];
+		value: Factor[];
 		operations: AddOp[];
 	}
-	export type TermValue = Factor | FactorValue;
 
 	export interface AddOp extends Grammar {
 		type: "AddOp";
@@ -231,10 +236,9 @@ export namespace Dafny {
 	// 17.2.7.8. Factor (multiplication operations)
 	export interface Factor extends Grammar {
 		type: "Factor";
-		value: FactorValue;
+		value: BitvectorFactor[];
 		operations: MulOp[];
 	}
-	export type FactorValue = BitvectorFactor | BitvectorFactorValue;
 
 	export interface MulOp extends Grammar {
 		type: "MulOp";
@@ -244,10 +248,9 @@ export namespace Dafny {
 	// 17.2.7.9. Bit-vector expression
 	export interface BitvectorFactor extends Grammar {
 		type: "BitvectorFactor";
-		value: BitvectorFactorValue;
+		value: AsExpression[];
 		operations: BVOp[];
 	}
-	export type BitvectorFactorValue = AsExpression | AsExpressionValue;
 
 	export interface BVOp extends Grammar {
 		type: "BVOp";
@@ -257,17 +260,15 @@ export namespace Dafny {
 	// 17.2.7.10. As/Is expression
 	export interface AsExpression extends Grammar {
 		type: "AsExpression";
-		value: AsExpressionValue;
-		type_: Type;
+		value: UnaryExpression;
+		type_?: Type;
 	}
-	export type AsExpressionValue = UnaryExpression | UnaryExpressionValue;
 
 	// 17.2.7.11. Unary expression
 	export interface UnaryExpression extends Grammar {
 		type: "UnaryExpression";
-		value: UnaryExpressionValue;
+		value: PrimaryExpression;
 	}
-	export type UnaryExpressionValue = PrimaryExpression | PrimaryExpressionValue;
 
 	// 17.2.7.12. Primary expression
 	export interface PrimaryExpression extends Grammar {
@@ -285,10 +286,10 @@ export namespace Dafny {
 	// 17.2.7.15. Right-hand-side expression
 	export interface Rhs extends Grammar {
 		type: "Rhs";
-		value: RhsValue; // Change from Expression
+		value: Expression; // Change from Expression
 	}
 
-	export type RhsValue = EquivExpression|ImpliesExpliesExpression|LogicalExpression|RelationalExpression|ShiftTerm|Term|Factor|BitvectorFactor|AsExpression|UnaryExpression|PrimaryExpression|ConstAtomExpression|NameSegment;
+	export type RhsValue = Expression|EquivExpression|ImpliesExpliesExpression|LogicalExpression|RelationalExpression|ShiftTerm|Term|Factor|BitvectorFactor|AsExpression|UnaryExpression|PrimaryExpression|ConstAtomExpression|NameSegment;
 
 	export interface ConstAtomExpression extends Grammar {
 		type: "ConstAtomExpression";

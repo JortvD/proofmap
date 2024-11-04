@@ -153,7 +153,7 @@ export function createVarDeclStatement(
 	};
 }
 
-export function createRhs(value: Dafny.RhsValue): Dafny.Rhs {
+export function createRhs(value: Dafny.Expression): Dafny.Rhs {
 	return {
 		type: "Rhs",
 		value,
@@ -211,7 +211,7 @@ export function createModuleDefinition(
 }
 
 export function createLogicalExpression(
-	value: Dafny.LogicalExpressionValue[], operations: ("&&"|"||")[]
+	value: Dafny.RelationalExpression[], operations: Dafny.LogOp[]
 ): Dafny.LogicalExpression {
 	return {
 		type: "LogicalExpression",
@@ -220,13 +220,126 @@ export function createLogicalExpression(
 	};
 }
 
+export function createLogOp(
+	value: Dafny.LogOpValue
+): Dafny.LogOp {
+	return {
+		type: "LogOp",
+		value,
+	};
+}
+
 export function createRelationalExpression(
-	value: Dafny.RelationalExpressionValue[], operations: Dafny.RelOp[]
+	value: Dafny.ShiftTerm[], operations: Dafny.RelOp[]
 ): Dafny.RelationalExpression {
 	return {
 		type: "RelationalExpression",
 		value,
 		operations,
+	};
+}
+
+export function createPrimaryExpression(
+	value: Dafny.PrimaryExpressionValue
+): Dafny.PrimaryExpression {
+	return {
+		type: "PrimaryExpression",
+		value,
+	};
+}
+
+export function createUnaryExpression(
+	value: Dafny.PrimaryExpression
+): Dafny.UnaryExpression {
+	return {
+		type: "UnaryExpression",
+		value,
+	};
+}
+
+export function createAsExpression(
+	value: Dafny.UnaryExpression,
+	type_?: Dafny.Type
+): Dafny.AsExpression {
+	return {
+		type: "AsExpression",
+		value,
+		type_,
+	};
+}
+
+export function createBitvectorFactor(
+	value: Dafny.AsExpression[],
+	operations: Dafny.BVOp[]
+): Dafny.BitvectorFactor {
+	return {
+		type: "BitvectorFactor",
+		value,
+		operations,
+	};
+}
+
+export function createFactor(
+	value: Dafny.BitvectorFactor[],
+	operations: Dafny.MulOp[]
+): Dafny.Factor {
+	return {
+		type: "Factor",
+		value,
+		operations,
+	};
+}
+
+export function createTerm(
+	value: Dafny.Factor[],
+	operations: Dafny.AddOp[]
+): Dafny.Term {
+	return {
+		type: "Term",
+		value,
+		operations,
+	};
+}
+
+export function createShiftTerm(
+	value: Dafny.Term[],
+	operations: Dafny.ShiftOp[]
+): Dafny.ShiftTerm {
+	return {
+		type: "ShiftTerm",
+		value,
+		operations,
+	};
+}
+
+export function createImpliesExpliesExpression(
+	value: Dafny.LogicalExpression,
+	rightDir?: Dafny.ImpliesExpression,
+	leftDir?: Dafny.LogicalExpression[],
+): Dafny.ImpliesExpliesExpression {
+	return {
+		type: "ImpliesExpliesExpression",
+		value,
+		rightDir,
+		leftDir,
+	};
+}
+
+export function createEquivExpression(
+	value: Dafny.ImpliesExpliesExpression[]
+): Dafny.EquivExpression {
+	return {
+		type: "EquivExpression",
+		value,
+	};
+}
+
+export function createExpression(
+	value: Dafny.EquivExpression
+): Dafny.Expression {
+	return {
+		type: "Expression",
+		value,
 	};
 }
 

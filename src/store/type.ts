@@ -41,7 +41,27 @@ class TypeStore {
 	}
 
 	knows(type: string): boolean {
-		return this.types.some((t) => t.name === type);
+		return this.types.find((t) => t.name === type)?.known;
+	}
+
+	knowsDeep(types: string[]): boolean {
+		const type = this.types.find((t) => t.name === types[0]);
+
+		if (!type) return false;
+
+		if (types.length === 1) return type.known;
+
+		return this.knowsDeepMember(type, types.slice(1));
+	}
+
+	knowsDeepMember(type: Type, types: string[]): boolean {
+		const member = type.members.find((m) => m.name === types[0]);
+
+		if (!member) return false;
+
+		if (types.length === 1) return member.known;
+
+		return this.knowsDeepMember(member, types.slice(1));
 	}
 }
 

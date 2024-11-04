@@ -7,6 +7,6 @@ class Test {
 
 		let test = "test";
 
-		return true && true && true;
+		return true && (true && true);
 	}
 }

@@ -146,35 +146,121 @@ class Builder {
 	}
 
 	buildRhs({value}: Dafny.Rhs): string {
+		if(value.type === "Expression") {
+			return this.buildExpression(value);
+		}
+
+		return "";
+	}
+
+	buildExpression({value}: Dafny.Expression): string {
+		return this.buildEquivExpression(value);
+	}
+
+	buildEquivExpression({value}: Dafny.EquivExpression): string {
+		return value.map(impliesExpliesExpression => this.buildImpliesExpliesExpression(impliesExpliesExpression)).join(" <==> ");
+	}
+
+	buildImpliesExpliesExpression({value, rightDir, leftDir}: Dafny.ImpliesExpliesExpression): string {
+		let text = this.buildLogicalExpression(value);
+
+		if(rightDir) {
+			text += ` ==> ${this.buildImpliesExpression(rightDir)}`;
+		}
+		else if(leftDir) {
+			text += ` <== ${leftDir.map(logicalExpression => this.buildLogicalExpression(logicalExpression)).join(" <== ")}`;
+		}
+
+		return text;
+	}
+
+	buildImpliesExpression({left, right}: Dafny.ImpliesExpression): string {
+		return `${this.buildLogicalExpression(left)} ==> ${this.buildImpliesExpression(right)}`;
+	}
+
+	buildLogicalExpression({value, operations}: Dafny.LogicalExpression): string {
+		let text = this.buildRelationalExpression(value[0]);
+
+		for (let i = 1; i < value.length; i++) {
+			text += ` ${operations[i - 1].value} ${this.buildRelationalExpression(value[i])}`;
+		}
+
+		return text;
+	}
+
+	buildRelationalExpression({value, operations}: Dafny.RelationalExpression): string {
+		let text = this.buildShiftTerm(value[0]);
+
+		for (let i = 1; i < value.length; i++) {
+			text += ` ${operations[i-1].value} ${this.buildShiftTerm(value[i + 1])}`;
+		}
+
+		return text;
+	}
+
+	buildShiftTerm({value, operations}: Dafny.ShiftTerm): string {
+		let text = this.buildTerm(value[0]);
+
+		for (let i = 1; i < value.length; i++) {
+			text += ` ${operations[i-1].value} ${this.buildTerm(value[i + 1])}`;
+		}
+
+		return text;
+	}
+
+	buildTerm({value, operations}: Dafny.Term): string {
+		let text = this.buildFactor(value[0]);
+
+		for (let i = 1; i < value.length; i++) {
+			text += ` ${operations[i-1].value} ${this.buildFactor(value[i + 1])}`;
+		}
+
+		return text;
+	}
+
+	buildFactor({value, operations}: Dafny.Factor): string {
+		let text = this.buildBitvectorFactor(value[0]);
+
+		for (let i = 1; i < value.length; i++) {
+			text += ` ${operations[i-1].value} ${this.buildBitvectorFactor(value[i + 1])}`;
+		}
+
+		return text;
+	}
+
+	buildBitvectorFactor({value, operations}: Dafny.BitvectorFactor): string {
+		let text = this.buildAsExpression(value[0]);
+
+		for (let i = 1; i < value.length; i++) {
+			text += ` ${operations[i-1].value} ${this.buildAsExpression(value[i + 1])}`;
+		}
+
+		return text;
+	}
+
+	buildAsExpression({value, type_}: Dafny.AsExpression): string {
+		let text = this.buildUnaryExpression(value);
+
+		if(type_) {
+			text += ` as ${this.buildType(type_)}`;
+		}
+
+		return text;
+	}
+
+	buildUnaryExpression({value}: Dafny.UnaryExpression): string {
+		return this.buildPrimaryExpression(value);
+	}
+
+	buildPrimaryExpression({value}: Dafny.PrimaryExpression): string {
 		if(value.type === "ConstAtomExpression") {
 			return this.buildConstAtomExpression(value);
 		}
 		else if(value.type === "NameSegment") {
 			return this.buildNameSegment(value);
 		}
-		else if(value.type === "LogicalExpression") {
-			return this.buildLogicalExpression(value);
-		}
 
 		return "";
-	}
-
-	buildLogicalExpression({value, operations}: Dafny.LogicalExpression): string {
-		const valueText: string[] = [];
-
-		for(let child of value) {
-			if(child.type === "RelationalExpression") {
-				valueText.push(this.buildRelationalExpression(child));
-			}
-			else if(child.type === "ShiftTerm") {
-				valueText.push(this.buildShiftTerm(child));
-			}
-			else if(child.type === "AddTerm") {
-				valueText.push(this.buildAddTerm(child));
-			}
-		}
-
-		return ``;
 	}
 
 	buildLhs({value}: Dafny.Lhs): string {

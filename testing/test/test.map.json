@@ -67,10 +67,66 @@
 																{
 																	"type": "Rhs",
 																	"value": {
-																		"type": "ConstAtomExpression",
+																		"type": "Expression",
 																		"value": {
-																			"type": "LiteralExpression",
-																			"value": "test"
+																			"type": "EquivExpression",
+																			"value": [
+																				{
+																					"type": "ImpliesExpliesExpression",
+																					"value": {
+																						"type": "LogicalExpression",
+																						"value": [
+																							{
+																								"type": "RelationalExpression",
+																								"value": [
+																									{
+																										"type": "ShiftTerm",
+																										"value": [
+																											{
+																												"type": "Term",
+																												"value": [
+																													{
+																														"type": "Factor",
+																														"value": [
+																															{
+																																"type": "BitvectorFactor",
+																																"value": [
+																																	{
+																																		"type": "AsExpression",
+																																		"value": {
+																																			"type": "UnaryExpression",
+																																			"value": {
+																																				"type": "PrimaryExpression",
+																																				"value": {
+																																					"type": "ConstAtomExpression",
+																																					"value": {
+																																						"type": "LiteralExpression",
+																																						"value": "test"
+																																					}
+																																				}
+																																			}
+																																		}
+																																	}
+																																],
+																																"operations": []
+																															}
+																														],
+																														"operations": []
+																													}
+																												],
+																												"operations": []
+																											}
+																										],
+																										"operations": []
+																									}
+																								],
+																								"operations": []
+																							}
+																						],
+																						"operations": []
+																					}
+																				}
+																			]
 																		}
 																	}
 																}
@@ -85,34 +141,168 @@
 																{
 																	"type": "Rhs",
 																	"value": {
-																		"type": "LogicalExpression",
-																		"value": [
-																			{
-																				"type": "ConstAtomExpression",
-																				"value": {
-																					"type": "LiteralExpression",
-																					"value": "true"
+																		"type": "Expression",
+																		"value": {
+																			"type": "EquivExpression",
+																			"value": [
+																				{
+																					"type": "ImpliesExpliesExpression",
+																					"value": {
+																						"type": "LogicalExpression",
+																						"value": [
+																							{
+																								"type": "RelationalExpression",
+																								"value": [
+																									{
+																										"type": "ShiftTerm",
+																										"value": [
+																											{
+																												"type": "Term",
+																												"value": [
+																													{
+																														"type": "Factor",
+																														"value": [
+																															{
+																																"type": "BitvectorFactor",
+																																"value": [
+																																	{
+																																		"type": "AsExpression",
+																																		"value": {
+																																			"type": "UnaryExpression",
+																																			"value": {
+																																				"type": "PrimaryExpression",
+																																				"value": {
+																																					"type": "ConstAtomExpression",
+																																					"value": {
+																																						"type": "LiteralExpression",
+																																						"value": "true"
+																																					}
+																																				}
+																																			}
+																																		}
+																																	}
+																																],
+																																"operations": []
+																															}
+																														],
+																														"operations": []
+																													}
+																												],
+																												"operations": []
+																											}
+																										],
+																										"operations": []
+																									}
+																								],
+																								"operations": []
+																							},
+																							{
+																								"type": "RelationalExpression",
+																								"value": [
+																									{
+																										"type": "ShiftTerm",
+																										"value": [
+																											{
+																												"type": "Term",
+																												"value": [
+																													{
+																														"type": "Factor",
+																														"value": [
+																															{
+																																"type": "BitvectorFactor",
+																																"value": [
+																																	{
+																																		"type": "AsExpression",
+																																		"value": {
+																																			"type": "UnaryExpression",
+																																			"value": {
+																																				"type": "PrimaryExpression",
+																																				"value": {
+																																					"type": "ConstAtomExpression",
+																																					"value": {
+																																						"type": "LiteralExpression",
+																																						"value": "true"
+																																					}
+																																				}
+																																			}
+																																		}
+																																	}
+																																],
+																																"operations": []
+																															}
+																														],
+																														"operations": []
+																													}
+																												],
+																												"operations": []
+																											}
+																										],
+																										"operations": []
+																									}
+																								],
+																								"operations": []
+																							},
+																							{
+																								"type": "RelationalExpression",
+																								"value": [
+																									{
+																										"type": "ShiftTerm",
+																										"value": [
+																											{
+																												"type": "Term",
+																												"value": [
+																													{
+																														"type": "Factor",
+																														"value": [
+																															{
+																																"type": "BitvectorFactor",
+																																"value": [
+																																	{
+																																		"type": "AsExpression",
+																																		"value": {
+																																			"type": "UnaryExpression",
+																																			"value": {
+																																				"type": "PrimaryExpression",
+																																				"value": {
+																																					"type": "ConstAtomExpression",
+																																					"value": {
+																																						"type": "LiteralExpression",
+																																						"value": "true"
+																																					}
+																																				}
+																																			}
+																																		}
+																																	}
+																																],
+																																"operations": []
+																															}
+																														],
+																														"operations": []
+																													}
+																												],
+																												"operations": []
+																											}
+																										],
+																										"operations": []
+																									}
+																								],
+																								"operations": []
+																							}
+																						],
+																						"operations": [
+																							{
+																								"type": "LogOp",
+																								"value": "&&"
+																							},
+																							{
+																								"type": "LogOp",
+																								"value": "&&"
+																							}
+																						]
+																					}
 																				}
-																			},
-																			{
-																				"type": "ConstAtomExpression",
-																				"value": {
-																					"type": "LiteralExpression",
-																					"value": "true"
-																				}
-																			},
-																			{
-																				"type": "ConstAtomExpression",
-																				"value": {
-																					"type": "LiteralExpression",
-																					"value": "true"
-																				}
-																			}
-																		],
-																		"operations": [
-																			"&&",
-																			"&&"
-																		]
+																			]
+																		}
 																	}
 																}
 															]
