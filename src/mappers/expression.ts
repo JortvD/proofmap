@@ -85,11 +85,11 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.Expressi
 
 					if(property.name === 'requires') {
 						const expression = this.mapMethodSpecArrowFunction(argument, false);
-						this.context.methodSpec.push(createRequiresClause(expression));
+						this.context.spec.push(createRequiresClause(expression));
 					}
 					else if (property.name === 'ensures') {
 						const expression = this.mapMethodSpecArrowFunction(argument, true);
-						this.context.methodSpec.push(createEnsuresClause(expression));
+						this.context.spec.push(createEnsuresClause(expression));
 					}
 
 					return;

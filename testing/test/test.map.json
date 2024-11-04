@@ -18,14 +18,17 @@
 									{
 										"type": "ClassMemberDecl",
 										"value": {
-											"type": "MethodDecl",
-											"keyword": {
-												"type": "MethodKeyword",
-												"value": "method"
-											},
+											"type": "FunctionDecl",
 											"name": "test",
+											"signature": {
+												"type": "PredicateSignature_",
+												"parameters": {
+													"type": "Formals",
+													"value": []
+												}
+											},
 											"specification": {
-												"type": "MethodSpec",
+												"type": "FunctionSpec",
 												"value": [
 													{
 														"type": "EnsuresClause",
@@ -95,180 +98,8 @@
 													}
 												]
 											},
-											"signature": {
-												"type": "MethodSignature_",
-												"parameters": {
-													"type": "Formals",
-													"value": []
-												},
-												"returns": {
-													"type": "Formals",
-													"value": [
-														{
-															"type": "GIdentType",
-															"value": {
-																"type": "IdentType",
-																"name": "pm_output",
-																"type_": {
-																	"type": "Type",
-																	"value": {
-																		"type": "DomainType_",
-																		"value": {
-																			"type": "BoolType_",
-																			"value": "bool"
-																		}
-																	}
-																}
-															}
-														}
-													]
-												}
-											},
 											"value": {
-												"type": "BlockStmt",
-												"value": [
-													{
-														"type": "Stmt",
-														"value": {
-															"type": "ReturnStmt",
-															"value": [
-																{
-																	"type": "Rhs",
-																	"value": {
-																		"type": "Expression",
-																		"value": {
-																			"type": "EquivExpression",
-																			"value": [
-																				{
-																					"type": "ImpliesExpliesExpression",
-																					"value": {
-																						"type": "LogicalExpression",
-																						"value": [
-																							{
-																								"type": "RelationalExpression",
-																								"value": [
-																									{
-																										"type": "ShiftTerm",
-																										"value": [
-																											{
-																												"type": "Term",
-																												"value": [
-																													{
-																														"type": "Factor",
-																														"value": [
-																															{
-																																"type": "BitvectorFactor",
-																																"value": [
-																																	{
-																																		"type": "AsExpression",
-																																		"value": {
-																																			"type": "UnaryExpression",
-																																			"value": {
-																																				"type": "PrimaryExpression",
-																																				"value": {
-																																					"type": "ConstAtomExpression",
-																																					"value": {
-																																						"type": "LiteralExpression",
-																																						"value": 0
-																																					}
-																																				}
-																																			}
-																																		}
-																																	}
-																																],
-																																"operations": []
-																															}
-																														],
-																														"operations": []
-																													}
-																												],
-																												"operations": []
-																											}
-																										],
-																										"operations": []
-																									},
-																									{
-																										"type": "ShiftTerm",
-																										"value": [
-																											{
-																												"type": "Term",
-																												"value": [
-																													{
-																														"type": "Factor",
-																														"value": [
-																															{
-																																"type": "BitvectorFactor",
-																																"value": [
-																																	{
-																																		"type": "AsExpression",
-																																		"value": {
-																																			"type": "UnaryExpression",
-																																			"value": {
-																																				"type": "PrimaryExpression",
-																																				"value": {
-																																					"type": "ConstAtomExpression",
-																																					"value": {
-																																						"type": "LiteralExpression",
-																																						"value": 0
-																																					}
-																																				}
-																																			}
-																																		}
-																																	}
-																																],
-																																"operations": []
-																															}
-																														],
-																														"operations": []
-																													}
-																												],
-																												"operations": []
-																											}
-																										],
-																										"operations": []
-																									}
-																								],
-																								"operations": [
-																									{
-																										"type": "RelOp",
-																										"value": ">"
-																									}
-																								]
-																							}
-																						],
-																						"operations": []
-																					}
-																				}
-																			]
-																		}
-																	}
-																}
-															]
-														}
-													}
-												]
-											}
-										}
-									}
-								]
-							}
-						},
-						{
-							"type": "TopDecl",
-							"value": {
-								"type": "ClassMemberDecl",
-								"value": {
-									"type": "MethodDecl",
-									"keyword": {
-										"type": "MethodKeyword",
-										"value": "method"
-									},
-									"name": "test2",
-									"specification": {
-										"type": "MethodSpec",
-										"value": [
-											{
-												"type": "RequiresClause",
+												"type": "FunctionBody",
 												"value": {
 													"type": "Expression",
 													"value": {
@@ -304,7 +135,47 @@
 																																"type": "ConstAtomExpression",
 																																"value": {
 																																	"type": "LiteralExpression",
-																																	"value": "true"
+																																	"value": 0
+																																}
+																															}
+																														}
+																													}
+																												}
+																											],
+																											"operations": []
+																										}
+																									],
+																									"operations": []
+																								}
+																							],
+																							"operations": []
+																						}
+																					],
+																					"operations": []
+																				},
+																				{
+																					"type": "ShiftTerm",
+																					"value": [
+																						{
+																							"type": "Term",
+																							"value": [
+																								{
+																									"type": "Factor",
+																									"value": [
+																										{
+																											"type": "BitvectorFactor",
+																											"value": [
+																												{
+																													"type": "AsExpression",
+																													"value": {
+																														"type": "UnaryExpression",
+																														"value": {
+																															"type": "PrimaryExpression",
+																															"value": {
+																																"type": "ConstAtomExpression",
+																																"value": {
+																																	"type": "LiteralExpression",
+																																	"value": 0
 																																}
 																															}
 																														}
@@ -323,7 +194,12 @@
 																					"operations": []
 																				}
 																			],
-																			"operations": []
+																			"operations": [
+																				{
+																					"type": "RelOp",
+																					"value": ">"
+																				}
+																			]
 																		}
 																	],
 																	"operations": []
@@ -333,160 +209,139 @@
 													}
 												}
 											}
-										]
-									},
+										}
+									}
+								]
+							}
+						},
+						{
+							"type": "TopDecl",
+							"value": {
+								"type": "ClassMemberDecl",
+								"value": {
+									"type": "FunctionDecl",
+									"name": "test2",
 									"signature": {
-										"type": "MethodSignature_",
+										"type": "PredicateSignature_",
 										"parameters": {
 											"type": "Formals",
 											"value": []
-										},
-										"returns": {
-											"type": "Formals",
-											"value": [
-												{
-													"type": "GIdentType",
-													"value": {
-														"type": "IdentType",
-														"name": "pm_output",
-														"type_": {
-															"type": "Type",
-															"value": {
-																"type": "DomainType_",
-																"value": {
-																	"type": "BoolType_",
-																	"value": "bool"
-																}
-															}
-														}
-													}
-												}
-											]
 										}
 									},
+									"specification": {
+										"type": "FunctionSpec",
+										"value": []
+									},
 									"value": {
-										"type": "BlockStmt",
-										"value": [
-											{
-												"type": "Stmt",
-												"value": {
-													"type": "ReturnStmt",
-													"value": [
-														{
-															"type": "Rhs",
-															"value": {
-																"type": "Expression",
-																"value": {
-																	"type": "EquivExpression",
+										"type": "FunctionBody",
+										"value": {
+											"type": "Expression",
+											"value": {
+												"type": "EquivExpression",
+												"value": [
+													{
+														"type": "ImpliesExpliesExpression",
+														"value": {
+															"type": "LogicalExpression",
+															"value": [
+																{
+																	"type": "RelationalExpression",
 																	"value": [
 																		{
-																			"type": "ImpliesExpliesExpression",
-																			"value": {
-																				"type": "LogicalExpression",
-																				"value": [
-																					{
-																						"type": "RelationalExpression",
-																						"value": [
-																							{
-																								"type": "ShiftTerm",
-																								"value": [
-																									{
-																										"type": "Term",
-																										"value": [
-																											{
-																												"type": "Factor",
-																												"value": [
-																													{
-																														"type": "BitvectorFactor",
-																														"value": [
-																															{
-																																"type": "AsExpression",
-																																"value": {
-																																	"type": "UnaryExpression",
-																																	"value": {
-																																		"type": "PrimaryExpression",
-																																		"value": {
-																																			"type": "ConstAtomExpression",
-																																			"value": {
-																																				"type": "LiteralExpression",
-																																				"value": 1
-																																			}
-																																		}
-																																	}
-																																}
-																															}
-																														],
-																														"operations": []
+																			"type": "ShiftTerm",
+																			"value": [
+																				{
+																					"type": "Term",
+																					"value": [
+																						{
+																							"type": "Factor",
+																							"value": [
+																								{
+																									"type": "BitvectorFactor",
+																									"value": [
+																										{
+																											"type": "AsExpression",
+																											"value": {
+																												"type": "UnaryExpression",
+																												"value": {
+																													"type": "PrimaryExpression",
+																													"value": {
+																														"type": "ConstAtomExpression",
+																														"value": {
+																															"type": "LiteralExpression",
+																															"value": 1
+																														}
 																													}
-																												],
-																												"operations": []
+																												}
 																											}
-																										],
-																										"operations": []
-																									}
-																								],
-																								"operations": []
-																							},
-																							{
-																								"type": "ShiftTerm",
-																								"value": [
-																									{
-																										"type": "Term",
-																										"value": [
-																											{
-																												"type": "Factor",
-																												"value": [
-																													{
-																														"type": "BitvectorFactor",
-																														"value": [
-																															{
-																																"type": "AsExpression",
-																																"value": {
-																																	"type": "UnaryExpression",
-																																	"value": {
-																																		"type": "PrimaryExpression",
-																																		"value": {
-																																			"type": "ConstAtomExpression",
-																																			"value": {
-																																				"type": "LiteralExpression",
-																																				"value": 0
-																																			}
-																																		}
-																																	}
-																																}
-																															}
-																														],
-																														"operations": []
+																										}
+																									],
+																									"operations": []
+																								}
+																							],
+																							"operations": []
+																						}
+																					],
+																					"operations": []
+																				}
+																			],
+																			"operations": []
+																		},
+																		{
+																			"type": "ShiftTerm",
+																			"value": [
+																				{
+																					"type": "Term",
+																					"value": [
+																						{
+																							"type": "Factor",
+																							"value": [
+																								{
+																									"type": "BitvectorFactor",
+																									"value": [
+																										{
+																											"type": "AsExpression",
+																											"value": {
+																												"type": "UnaryExpression",
+																												"value": {
+																													"type": "PrimaryExpression",
+																													"value": {
+																														"type": "ConstAtomExpression",
+																														"value": {
+																															"type": "LiteralExpression",
+																															"value": 0
+																														}
 																													}
-																												],
-																												"operations": []
+																												}
 																											}
-																										],
-																										"operations": []
-																									}
-																								],
-																								"operations": []
-																							}
-																						],
-																						"operations": [
-																							{
-																								"type": "RelOp",
-																								"value": ">"
-																							}
-																						]
-																					}
-																				],
-																				"operations": []
-																			}
+																										}
+																									],
+																									"operations": []
+																								}
+																							],
+																							"operations": []
+																						}
+																					],
+																					"operations": []
+																				}
+																			],
+																			"operations": []
+																		}
+																	],
+																	"operations": [
+																		{
+																			"type": "RelOp",
+																			"value": ">"
 																		}
 																	]
 																}
-															}
+															],
+															"operations": []
 														}
-													]
-												}
+													}
+												]
 											}
-										]
+										}
 									}
 								}
 							}

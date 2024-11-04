@@ -15,7 +15,7 @@ class ProgramMapper extends AbstractMapper<TSESTree.Program,Dafny.Dafny> {
 			variables: new VariableStore(),
 			types: new TypeStore(),
 			moduleName: "",
-			methodSpec: []
+			spec: []
 		});
 		this.fileName = fileName;
 	}

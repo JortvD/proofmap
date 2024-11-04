@@ -50,6 +50,8 @@ class Builder {
 	buildClassMemberDecl({value}: Dafny.ClassMemberDecl): string {
 		if(value.type === "MethodDecl") {
 			return this.buildMethodDecl(value);
+		} else if (value.type === "FunctionDecl") {
+			return this.buildFunctionDecl(value);
 		}
 
 		return "";
@@ -62,6 +64,39 @@ class Builder {
 		return `${this.buildMethodKeyword(keyword)} ${name}${this.buildMethodSignature_(signature)} ${spec}{\n${this.indent(body)}\n}`;
 	}
 
+	buildFunctionDecl({name, value, signature, specification}: Dafny.FunctionDecl): string {
+		const body = this.buildFunctionBody(value);
+		const spec = this.buildFunctionSpec(specification);
+
+		if (signature.type === "PredicateSignature_") {
+			return `predicate ${name}${this.buildPredicateSignature_(signature)} ${spec}{\n${this.indent(body)}\n}`;
+		} else if (signature.type === "FunctionSignature_") {
+			return `function ${name}${this.buildFunctionSignature_(signature)} ${spec}{\n${this.indent(body)}\n}`;
+		}
+
+		return "";
+	}
+
+	buildFunctionBody({value}: Dafny.FunctionBody): string {
+		return this.buildExpression(value);
+	}
+
+	buildFunctionSpec({value}: Dafny.FunctionSpec): string {
+		if (value.length === 0) {
+			return "";
+		}
+
+		return `\n${this.indent(value.map(functionSpecValue => this.buildSpecValue(functionSpecValue)).join("\n"))}\n`;
+	}
+
+	buildFunctionSignature_({parameters, returns}: Dafny.FunctionSignature_): string {
+		return `${this.buildFormals(parameters)}: ${this.buildType(returns)}`;
+	}
+
+	buildPredicateSignature_({parameters}: Dafny.PredicateSignature_): string {
+		return `${this.buildFormals(parameters)}`;
+	}
+
 	buildMethodSignature_({parameters, returns}: Dafny.MethodSignature_): string {
 		const returnsText = returns.value.length > 0 ? ` returns ${this.buildFormals(returns)}` : "";
 
@@ -69,10 +104,14 @@ class Builder {
 	}
 
 	buildMethodSpec({value}: Dafny.MethodSpec): string {
-		return `\n${this.indent(value.map(methodSpecValue => this.buildMethodSpecValue(methodSpecValue)).join("\n"))}\n`;
+		if (value.length === 0) {
+			return "";
+		}
+
+		return `\n${this.indent(value.map(methodSpecValue => this.buildSpecValue(methodSpecValue)).join("\n"))}\n`;
 	}
 
-	buildMethodSpecValue({type, value}: Dafny.MethodSpecValue): string {
+	buildSpecValue({type, value}: Dafny.SpecValue): string {
 		if(type === "RequiresClause") {
 			return this.buildRequiresClause({type, value});
 		} else if(type === "EnsuresClause") {

@@ -11,7 +11,7 @@ export interface MapContext {
 	variables: VariableStore;
 	types: TypeStore;
 	moduleName: string;
-	methodSpec: Dafny.MethodSpecValue[];
+	spec: Dafny.SpecValue[];
 }
 
 abstract class AbstractMapper<T,U> {

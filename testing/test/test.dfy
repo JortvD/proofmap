@@ -1,14 +1,12 @@
 module test {
   class Test {
-    method test() returns (pm_output: bool) 
+    predicate test() 
       ensures true
     {
-      return 0 > 0;
+      0 > 0
     }
   }
-  method test2() returns (pm_output: bool) 
-    requires true
-  {
-    return 1 > 0;
+  predicate test2() {
+    1 > 0
   }
 }

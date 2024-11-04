@@ -10,8 +10,5 @@ class Test {
 }
 
 function test2(): boolean {
-	const pm = new ProofMap<typeof test2>();
-	pm.requires(() => true);
-
 	return 1 > 0;
 }

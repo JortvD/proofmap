@@ -68,8 +68,9 @@ export namespace Dafny {
 
 	export interface ClassMemberDecl extends Grammar {
 		type: "ClassMemberDecl";
-		value: MethodDecl;
+		value: ClassMemberDeclValue;
 	}
+	export type ClassMemberDeclValue = MethodDecl|FunctionDecl;
 
 	// 17.2.4.3. Method declarations
 	export interface MethodDecl extends Grammar {
@@ -99,12 +100,44 @@ export namespace Dafny {
 		value: GIdentType[];
 	}
 
+	// 17.2.4.4. Function declarations
+	export interface FunctionDecl extends Grammar {
+		type: "FunctionDecl";
+		name: string;
+		signature: FunctionSignature_|PredicateSignature_;
+		specification?: FunctionSpec;
+		value: FunctionBody;
+	}
+	export type FunctionDeclSignature = FunctionSignature_|PredicateSignature_;
+
+	export interface FunctionSignature_ extends Grammar {
+		type: "FunctionSignature_";
+		parameters: Formals;
+		returns: Type;
+	}
+
+	export interface PredicateSignature_ extends Grammar {
+		type: "PredicateSignature_";
+		parameters: Formals;
+	}
+
+	export interface FunctionBody extends Grammar {
+		type: "FunctionBody";
+		value: Expression;
+	}
+
 	// 17.2.5.1. Method specifications
 	export interface MethodSpec extends Grammar {
 		type: "MethodSpec";
-		value: MethodSpecValue[];
+		value: SpecValue[];
 	}
-	export type MethodSpecValue = RequiresClause|EnsuresClause;
+	export type SpecValue = RequiresClause|EnsuresClause;
+
+	// 17.2.5.2. Function specifications
+	export interface FunctionSpec extends Grammar {
+		type: "FunctionSpec";
+		value: SpecValue[];
+	}
 
 	// 17.2.5.6. Requires clauses
 	export interface RequiresClause extends Grammar {

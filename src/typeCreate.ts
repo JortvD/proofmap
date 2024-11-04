@@ -6,7 +6,7 @@ export function createMethodDecl(
 	value: Dafny.BlockStmt,
 	parameters: Dafny.Formals,
 	returns: Dafny.Formals,
-	specification: Dafny.MethodSpecValue[] = []
+	specification: Dafny.SpecValue[] = []
 ): Dafny.MethodDecl {
 	return {
 		type: "MethodDecl",
@@ -21,7 +21,7 @@ export function createMethodDecl(
 		},
 		signature: {
 			type: "MethodSignature_",
-			parameters: parameters,
+			parameters,
 			returns,
 		},
 		value,
@@ -49,6 +49,58 @@ export function createEnsuresClause(
 export function createFormals(value: Dafny.GIdentType[]): Dafny.Formals {
 	return {
 		type: "Formals",
+		value,
+	};
+}
+
+export function createFunctionDecl(
+	name: string,
+	value: Dafny.FunctionBody,
+	signature: Dafny.FunctionDeclSignature,
+	specification: Dafny.SpecValue[] = []
+): Dafny.FunctionDecl {
+	return {
+		type: "FunctionDecl",
+		name,
+		signature,
+		specification: {
+			type: "FunctionSpec",
+			value: specification
+		},
+		value,
+	};
+}
+
+export function createFunctionSignature_(
+	parameters: Dafny.Formals,
+	returns: Dafny.Type
+): Dafny.FunctionSignature_ {
+	return {
+		type: "FunctionSignature_",
+		parameters,
+		returns,
+	};
+}
+
+export function createPredicateSignature_(
+	parameters: Dafny.Formals
+): Dafny.PredicateSignature_ {
+	return {
+		type: "PredicateSignature_",
+		parameters,
+	};
+}
+
+export function createFunctionBody(value: Dafny.Expression): Dafny.FunctionBody {
+	return {
+		type: "FunctionBody",
+		value,
+	};
+}
+
+export function createFunctionSpec(value: Dafny.SpecValue[]): Dafny.FunctionSpec {
+	return {
+		type: "FunctionSpec",
 		value,
 	};
 }
@@ -136,7 +188,7 @@ export function createClassDecl(
 }
 
 export function createClassMemberDecl(
-	value: Dafny.MethodDecl
+	value: Dafny.ClassMemberDeclValue
 ): Dafny.ClassMemberDecl {
 	return {
 		type: "ClassMemberDecl",
