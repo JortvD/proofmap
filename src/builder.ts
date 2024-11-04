@@ -140,18 +140,41 @@ class Builder {
 	}
 
 	buildReturnStmt({value}: Dafny.ReturnStmt): string {
-		return `return ${value.map(rhs => this.buildRhs(rhs)).join(", ")};`;
+		const returnValue = value.length > 0 ? ` ${value.map(rhs => this.buildRhs(rhs)).join(", ")}` : "";
+
+		return `return${returnValue};`;
 	}
 
 	buildRhs({value}: Dafny.Rhs): string {
-		if(value.type === "LiteralExpression") {
-			return this.buildLiteralExpression(value);
+		if(value.type === "ConstAtomExpression") {
+			return this.buildConstAtomExpression(value);
 		}
 		else if(value.type === "NameSegment") {
 			return this.buildNameSegment(value);
 		}
+		else if(value.type === "LogicalExpression") {
+			return this.buildLogicalExpression(value);
+		}
 
 		return "";
+	}
+
+	buildLogicalExpression({value, operations}: Dafny.LogicalExpression): string {
+		const valueText: string[] = [];
+
+		for(let child of value) {
+			if(child.type === "RelationalExpression") {
+				valueText.push(this.buildRelationalExpression(child));
+			}
+			else if(child.type === "ShiftTerm") {
+				valueText.push(this.buildShiftTerm(child));
+			}
+			else if(child.type === "AddTerm") {
+				valueText.push(this.buildAddTerm(child));
+			}
+		}
+
+		return ``;
 	}
 
 	buildLhs({value}: Dafny.Lhs): string {
@@ -164,6 +187,14 @@ class Builder {
 
 	buildNameSegment({value}: Dafny.NameSegment): string {
 		return value;
+	}
+
+	buildConstAtomExpression({value}: Dafny.ConstAtomExpression): string {
+		if(value.type === "LiteralExpression") {
+			return this.buildLiteralExpression(value);
+		}
+
+		return "";
 	}
 
 	buildLiteralExpression({value}: Dafny.LiteralExpression): string {

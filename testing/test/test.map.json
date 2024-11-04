@@ -43,8 +43,8 @@
 																	"value": {
 																		"type": "DomainType_",
 																		"value": {
-																			"type": "StringType_",
-																			"value": "string"
+																			"type": "BoolType_",
+																			"value": "bool"
 																		}
 																	}
 																}
@@ -67,8 +67,11 @@
 																{
 																	"type": "Rhs",
 																	"value": {
-																		"type": "LiteralExpression",
-																		"value": "test"
+																		"type": "ConstAtomExpression",
+																		"value": {
+																			"type": "LiteralExpression",
+																			"value": "test"
+																		}
 																	}
 																}
 															]
@@ -82,8 +85,34 @@
 																{
 																	"type": "Rhs",
 																	"value": {
-																		"type": "NameSegment",
-																		"value": "test"
+																		"type": "LogicalExpression",
+																		"value": [
+																			{
+																				"type": "ConstAtomExpression",
+																				"value": {
+																					"type": "LiteralExpression",
+																					"value": "true"
+																				}
+																			},
+																			{
+																				"type": "ConstAtomExpression",
+																				"value": {
+																					"type": "LiteralExpression",
+																					"value": "true"
+																				}
+																			},
+																			{
+																				"type": "ConstAtomExpression",
+																				"value": {
+																					"type": "LiteralExpression",
+																					"value": "true"
+																				}
+																			}
+																		],
+																		"operations": [
+																			"&&",
+																			"&&"
+																		]
 																	}
 																}
 															]

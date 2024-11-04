@@ -3,7 +3,7 @@ import AbstractMapper from "./abstract";
 import { Dafny } from "../types";
 import { createLiteralExpression } from "../typeCreate";
 
-class LiteralMapper extends AbstractMapper<TSESTree.Literal,Dafny.RhsValue> {
+class LiteralMapper extends AbstractMapper<TSESTree.Literal,Dafny.LiteralExpression> {
 	map() {
 		if (typeof this.node.value !== "string" && typeof this.node.value !== "number" && typeof this.node.value !== "boolean") {
 			throw new Error("Literal value must be a string, number, boolean or null");

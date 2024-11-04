@@ -1,12 +1,12 @@
 import { ProofMap } from "../../lib";
 
 class Test {
-	test(): string {
+	test(): boolean {
 		const pm = new ProofMap<typeof this.test>();
-		pm.requires(out => out.length > 0);
+		pm.requires(out => out);
 
 		let test = "test";
 
-		return test;
+		return true && true && true;
 	}
 }

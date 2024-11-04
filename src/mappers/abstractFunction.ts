@@ -2,7 +2,7 @@ import { TSESTree } from "@typescript-eslint/typescript-estree";
 import AbstractMapper, { MapContext, MapOptions } from "./abstract";
 import BlockStatementMapper from "./blockStatement";
 import { Dafny } from "../types";
-import { createDomainType_, createFormals, createGIndentType, createIndentType, createMethodDecl, createStringType_, createType } from "../typeCreate";
+import { createBoolType_, createDomainType_, createFormals, createGIndentType, createIndentType, createMethodDecl, createStringType_, createType } from "../typeCreate";
 
 abstract class AbstractFunctionMapper<T extends TSESTree.FunctionDeclaration|TSESTree.FunctionExpression> extends AbstractMapper<T,Dafny.MethodDecl> {
 	id?: TSESTree.Identifier;
@@ -40,6 +40,8 @@ abstract class AbstractFunctionMapper<T extends TSESTree.FunctionDeclaration|TSE
 		switch(this.node.returnType.typeAnnotation.type) {
 			case "TSStringKeyword":
 				return createType(createDomainType_(createStringType_()))
+			case "TSBooleanKeyword":
+				return createType(createDomainType_(createBoolType_()))
 		}
 	}
 

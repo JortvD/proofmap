@@ -111,30 +111,10 @@
 													"type": "ArrowFunctionExpression",
 													"async": false,
 													"body": {
-														"type": "BinaryExpression",
-														"operator": ">",
-														"left": {
-															"type": "MemberExpression",
-															"computed": false,
-															"object": {
-																"type": "Identifier",
-																"decorators": [],
-																"name": "out",
-																"optional": false
-															},
-															"optional": false,
-															"property": {
-																"type": "Identifier",
-																"decorators": [],
-																"name": "length",
-																"optional": false
-															}
-														},
-														"right": {
-															"type": "Literal",
-															"raw": "0",
-															"value": 0
-														}
+														"type": "Identifier",
+														"decorators": [],
+														"name": "out",
+														"optional": false
 													},
 													"expression": true,
 													"generator": false,
@@ -194,10 +174,27 @@
 									{
 										"type": "ReturnStatement",
 										"argument": {
-											"type": "Identifier",
-											"decorators": [],
-											"name": "test",
-											"optional": false
+											"type": "LogicalExpression",
+											"operator": "&&",
+											"left": {
+												"type": "LogicalExpression",
+												"operator": "&&",
+												"left": {
+													"type": "Literal",
+													"raw": "true",
+													"value": true
+												},
+												"right": {
+													"type": "Literal",
+													"raw": "true",
+													"value": true
+												}
+											},
+											"right": {
+												"type": "Literal",
+												"raw": "true",
+												"value": true
+											}
 										}
 									}
 								]
@@ -210,7 +207,7 @@
 							"returnType": {
 								"type": "TSTypeAnnotation",
 								"typeAnnotation": {
-									"type": "TSStringKeyword"
+									"type": "TSBooleanKeyword"
 								}
 							}
 						}

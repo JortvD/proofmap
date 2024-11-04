@@ -10,7 +10,11 @@ class ReturnStatementMapper extends AbstractMapper<TSESTree.ReturnStatement,Dafn
 
 		if (this.node.argument) {
 			const mapper = new ExpressionMapper(this.node.argument, this.options, this.context);
-			value.push(createRhs(mapper.map()));
+			const returnValue = mapper.map();
+
+			if (returnValue) {
+				value.push(createRhs(mapper.map()));
+			}
 		}
 
 		return createReturnStmt(value);

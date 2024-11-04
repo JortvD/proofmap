@@ -1,11 +1,14 @@
 import { TSESTree } from "@typescript-eslint/typescript-estree";
+import VariableStore from "../store/variable";
+import TypeStore from "../store/type";
 
 export interface MapOptions {
 	defaultReturnsName: string;
 }
 
 export interface MapContext {
-	variables: Map<string, string>;
+	variables: VariableStore;
+	types: TypeStore;
 	moduleName: string;
 	requires: TSESTree.ArrowFunctionExpression[];
 	ensures: TSESTree.ArrowFunctionExpression[];

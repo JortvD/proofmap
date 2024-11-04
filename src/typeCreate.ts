@@ -123,7 +123,7 @@ export function createClassMemberDecl(
 }
 
 export function createLiteralExpression(
-	value: Dafny.LiteralExpressionType
+	value: Dafny.LiteralExpressionValue
 ): Dafny.LiteralExpression {
 	return {
 		type: "LiteralExpression",
@@ -206,6 +206,44 @@ export function createModuleDefinition(
 	return {
 		type: "ModuleDefinition",
 		name,
+		value,
+	};
+}
+
+export function createLogicalExpression(
+	value: Dafny.LogicalExpressionValue[], operations: ("&&"|"||")[]
+): Dafny.LogicalExpression {
+	return {
+		type: "LogicalExpression",
+		value,
+		operations,
+	};
+}
+
+export function createRelationalExpression(
+	value: Dafny.RelationalExpressionValue[], operations: Dafny.RelOp[]
+): Dafny.RelationalExpression {
+	return {
+		type: "RelationalExpression",
+		value,
+		operations,
+	};
+}
+
+export function createRelOp(
+	value: ("=="|"!="|"<="|"<"|">="|">"|"in"|"!in"|"!!")
+): Dafny.RelOp {
+	return {
+		type: "RelOp",
+		value,
+	};
+}
+
+export function createConstAtomExpression(
+	value: Dafny.LiteralExpression
+): Dafny.ConstAtomExpression {
+	return {
+		type: "ConstAtomExpression",
 		value,
 	};
 }

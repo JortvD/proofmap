@@ -165,67 +165,116 @@ export namespace Dafny {
 	// 17.2.7.2. Equivalence expression
 	export interface EquivExpression extends Grammar {
 		type: "EquivExpression";
-		value: ImpliesExpliesExpression;
+		value: ImpliesExpliesExpression[];
 	}
 
 	// 17.2.7.3. Implies expression
 	export interface ImpliesExpliesExpression extends Grammar {
 		type: "ImpliesExpliesExpression";
 		value: LogicalExpression;
+		rightDir?: ImpliesExpression;
+		leftDir?: LogicalExpression[];
+	}
+
+	export interface ImpliesExpression extends Grammar {
+		type: "ImpliesExpression";
+		left: LogicalExpression;
+		right?: LogicalExpression;
 	}
 
 	export interface LogicalExpression extends Grammar {
 		type: "LogicalExpression";
-		value: RelationalExpression;
+		value: LogicalExpressionValue[];
+		operations: ("&&"|"||")[];
 	}
+	export type LogicalExpressionValue = RelationalExpression | RelationalExpressionValue;
 
 	// 17.2.7.5. Relational expression
 	export interface RelationalExpression extends Grammar {
 		type: "RelationalExpression";
-		value: ShiftTerm;
+		value: RelationalExpressionValue[];
+		operations: RelOp[];
+	}
+	export type RelationalExpressionValue = ShiftTerm | ShiftTermValue;
+
+	export interface RelOp extends Grammar {
+		type: "RelOp";
+		value: ("=="|"!="|"<="|"<"|">="|">"|"in"|"!in"|"!!");
 	}
 
 	// 17.2.7.6. Bit-shift expression
 	export interface ShiftTerm extends Grammar {
 		type: "ShiftTerm";
-		value: Term;
+		value: ShiftTermValue[];
+		operations: ShiftOp[];
+	}
+	export type ShiftTermValue = Term | TermValue;
+
+	export interface ShiftOp extends Grammar {
+		type: "ShiftOp";
+		value: ("<<"|">>");
 	}
 
 	// 17.2.7.7. Term (addition operations)
 	export interface Term extends Grammar {
 		type: "Term";
-		value: Factor;
+		value: TermValue[];
+		operations: AddOp[];
+	}
+	export type TermValue = Factor | FactorValue;
+
+	export interface AddOp extends Grammar {
+		type: "AddOp";
+		value: ("+"|"-");
 	}
 
 	// 17.2.7.8. Factor (multiplication operations)
 	export interface Factor extends Grammar {
 		type: "Factor";
-		value: BitvectorFactor;
+		value: FactorValue;
+		operations: MulOp[];
+	}
+	export type FactorValue = BitvectorFactor | BitvectorFactorValue;
+
+	export interface MulOp extends Grammar {
+		type: "MulOp";
+		value: ("*"|"/"|"%");
 	}
 
 	// 17.2.7.9. Bit-vector expression
 	export interface BitvectorFactor extends Grammar {
 		type: "BitvectorFactor";
-		value: AsExpression;
+		value: BitvectorFactorValue;
+		operations: BVOp[];
+	}
+	export type BitvectorFactorValue = AsExpression | AsExpressionValue;
+
+	export interface BVOp extends Grammar {
+		type: "BVOp";
+		value: ("&"|"|"|"^");
 	}
 
 	// 17.2.7.10. As/Is expression
 	export interface AsExpression extends Grammar {
 		type: "AsExpression";
-		value: UnaryExpression;
+		value: AsExpressionValue;
+		type_: Type;
 	}
+	export type AsExpressionValue = UnaryExpression | UnaryExpressionValue;
 
 	// 17.2.7.11. Unary expression
 	export interface UnaryExpression extends Grammar {
 		type: "UnaryExpression";
-		value: PrimaryExpression;
+		value: UnaryExpressionValue;
 	}
+	export type UnaryExpressionValue = PrimaryExpression | PrimaryExpressionValue;
 
 	// 17.2.7.12. Primary expression
 	export interface PrimaryExpression extends Grammar {
 		type: "PrimaryExpression";
-		value: NameSegment|ConstAtomExpression;
+		value: PrimaryExpressionValue;
 	}
+	export type PrimaryExpressionValue = NameSegment|ConstAtomExpression;
 
 	// 17.2.7.14. Left-hand-side expression
 	export interface Lhs extends Grammar {
@@ -239,19 +288,18 @@ export namespace Dafny {
 		value: RhsValue; // Change from Expression
 	}
 
-	export type RhsValue = EquivExpression|ImpliesExpliesExpression|LogicalExpression|RelationalExpression|ShiftTerm|Term|Factor|BitvectorFactor|AsExpression|UnaryExpression|PrimaryExpression|ConstAtomExpression|LiteralExpression|NameSegment;
+	export type RhsValue = EquivExpression|ImpliesExpliesExpression|LogicalExpression|RelationalExpression|ShiftTerm|Term|Factor|BitvectorFactor|AsExpression|UnaryExpression|PrimaryExpression|ConstAtomExpression|NameSegment;
 
 	export interface ConstAtomExpression extends Grammar {
 		type: "ConstAtomExpression";
 		value: LiteralExpression;
 	}
 
-	export type LiteralExpressionType = "false"|"true"|"null"|number|bigint|string;
-
 	export interface LiteralExpression extends Grammar {
 		type: "LiteralExpression";
-		value: "false"|"true"|"null"|number|bigint|string;
+		value: LiteralExpressionValue;
 	}
+	export type LiteralExpressionValue = "false"|"true"|"null"|number|bigint|string;
 
 	// 17.2.7.40. Name Segment
 	export interface NameSegment extends Grammar {

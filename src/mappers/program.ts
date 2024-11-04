@@ -3,13 +3,16 @@ import AbstractMapper, { MapOptions } from "./abstract";
 import ClassDeclarationMapper from "./classDeclaration";
 import { Dafny } from "../types";
 import { createDafny, createModuleDefinition, createSubModuleDecl, createTopDecl } from "../typeCreate";
+import VariableStore from "../store/variable";
+import TypeStore from "../store/type";
 
 class ProgramMapper extends AbstractMapper<TSESTree.Program,Dafny.Dafny> {
 	fileName: string;
 
 	constructor(node: TSESTree.Program, options: MapOptions, fileName: string) {
 		super(node, options, {
-			variables: new Map(),
+			variables: new VariableStore(),
+			types: new TypeStore(),
 			moduleName: "",
 			requires: [],
 			ensures: []

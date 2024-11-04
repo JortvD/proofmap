@@ -3,6 +3,7 @@ import ExpressionMapper from "./expression";
 import AbstractMapper from "./abstract";
 import { Dafny } from "../types";
 import { createRhs, createVarDeclStatement } from "../typeCreate";
+import { createVariable } from "../store/variable";
 
 class VariableDeclarationMapper extends AbstractMapper<TSESTree.VariableDeclaration,Dafny.VarDeclStatement> {
 	map() {
@@ -14,12 +15,15 @@ class VariableDeclarationMapper extends AbstractMapper<TSESTree.VariableDeclarat
 
 			if(declerator.init) {
 				const mapper = new ExpressionMapper(declerator.init, this.options, this.context);
-
 				const type = mapper.getType();
 
-				this.context.variables.set(id.name, mapper.getType());
+				this.context.variables.add(createVariable(id.name, type));
 
 				if (this.shouldSkipDeclarator(type)) continue;
+
+				if (!this.context.types.knows(type)) {
+					throw new Error(`Unknown type ${type}`);
+				}
 
 				init.push(createRhs(mapper.map()));
 			}
