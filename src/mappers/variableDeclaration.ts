@@ -2,6 +2,7 @@ import { TSESTree } from "@typescript-eslint/typescript-estree";
 import ExpressionMapper from "./expression";
 import AbstractMapper from "./abstract";
 import { Dafny } from "../types";
+import { createRhs, createVarDeclStatement } from "../typeCreate";
 
 class VariableDeclarationMapper extends AbstractMapper<TSESTree.VariableDeclaration,Dafny.VarDeclStatement> {
 	map() {
@@ -20,7 +21,7 @@ class VariableDeclarationMapper extends AbstractMapper<TSESTree.VariableDeclarat
 
 				if (this.shouldSkipDeclarator(type)) continue;
 
-				init.push(this.createRhs(mapper.map()));
+				init.push(createRhs(mapper.map()));
 			}
 			key.push(id.name);
 		}
@@ -33,26 +34,7 @@ class VariableDeclarationMapper extends AbstractMapper<TSESTree.VariableDeclarat
 			return;
 		}
 
-		return this.createVarDeclStatement(key, init);
-	}
-
-	createVarDeclStatement(key: string[], init: Dafny.Rhs[]) {
-		const type: Dafny.VarDeclStatement = {
-			type: "VarDeclStatement",
-			key,
-			init
-		}
-
-		return type;
-	}
-
-	createRhs(value: Dafny.RhsValue) {
-		const type: Dafny.Rhs = {
-			type: "Rhs",
-			value
-		}
-
-		return type;
+		return createVarDeclStatement(key, init);
 	}
 
 	shouldSkipDeclarator(type: string) {

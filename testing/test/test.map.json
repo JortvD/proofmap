@@ -32,7 +32,8 @@
 														"value": {
 															"type": "VarDeclStatement",
 															"key": [
-																"test"
+																"test",
+																"test2"
 															],
 															"init": [
 																{
@@ -40,6 +41,61 @@
 																	"value": {
 																		"type": "LiteralExpression",
 																		"value": "test"
+																	}
+																},
+																{
+																	"type": "Rhs",
+																	"value": {
+																		"type": "LiteralExpression",
+																		"value": "test2"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"type": "Stmt",
+														"value": {
+															"type": "UpdateStmt",
+															"key": [
+																{
+																	"type": "Lhs",
+																	"value": {
+																		"type": "NameSegment",
+																		"value": "test"
+																	}
+																}
+															],
+															"value": [
+																{
+																	"type": "Rhs",
+																	"value": {
+																		"type": "LiteralExpression",
+																		"value": "abc"
+																	}
+																}
+															]
+														}
+													},
+													{
+														"type": "Stmt",
+														"value": {
+															"type": "UpdateStmt",
+															"key": [
+																{
+																	"type": "Lhs",
+																	"value": {
+																		"type": "NameSegment",
+																		"value": "test2"
+																	}
+																}
+															],
+															"value": [
+																{
+																	"type": "Rhs",
+																	"value": {
+																		"type": "LiteralExpression",
+																		"value": "def"
 																	}
 																}
 															]

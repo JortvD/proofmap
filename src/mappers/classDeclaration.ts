@@ -2,6 +2,7 @@ import { TSESTree } from "@typescript-eslint/typescript-estree";
 import AbstractMapper from "./abstract";
 import MethodDefinitionMapper from "./methodDefinition";
 import { Dafny } from "../types";
+import { createClassDecl } from "../typeCreate";
 
 class ClassDeclarationMapper extends AbstractMapper<TSESTree.ClassDeclaration,Dafny.ClassDecl> {
 	map() {
@@ -15,17 +16,7 @@ class ClassDeclarationMapper extends AbstractMapper<TSESTree.ClassDeclaration,Da
 			}
 		}
 
-		return this.createClassDecl(id.name, value);
-	}
-
-	createClassDecl(name: string, value: Dafny.ClassMemberDecl[]) {
-		const type: Dafny.ClassDecl = {
-			type: "ClassDecl",
-			name,
-			value
-		}
-
-		return type;
+		return createClassDecl(id.name, value);
 	}
 }
 

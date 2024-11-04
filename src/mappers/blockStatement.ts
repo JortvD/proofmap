@@ -3,6 +3,7 @@ import { TSESTree } from "@typescript-eslint/typescript-estree";
 import VariableDeclarationMapper from "./variableDeclaration";
 import ExpressionStatementMapper from "./expressionStatement";
 import { Dafny } from "../types";
+import { createBlockStmt, createStmt } from "../typeCreate";
 
 class BlockStatementMapper extends AbstractMapper<TSESTree.BlockStatement,Dafny.BlockStmt> {
 	map() {
@@ -28,29 +29,13 @@ class BlockStatementMapper extends AbstractMapper<TSESTree.BlockStatement,Dafny.
 				continue;
 			}
 
-			value.push(this.createStmt(statementValue));
+			value.push(createStmt(statementValue));
 		}
 
-		return this.createBlockStmt(value);
+		return createBlockStmt(value);
 	}
 
-	createBlockStmt(value: Dafny.Stmt[]) {
-		const type: Dafny.BlockStmt = {
-			type: "BlockStmt",
-			value
-		}
-
-		return type;
-	}
-
-	createStmt(value: Dafny.StmtValue) {
-		const type: Dafny.Stmt = {
-			type: "Stmt",
-			value
-		}
-
-		return type;
-	}
+	
 }
 
 export default BlockStatementMapper;

@@ -1,6 +1,7 @@
 import { TSESTree } from "@typescript-eslint/typescript-estree";
 import AbstractMapper from "./abstract";
 import { Dafny } from "../types";
+import LiteralMapper from "./literal";
 
 class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.RhsValue> {
 	checkProofMapValidArguments() {
@@ -17,17 +18,9 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.RhsValue
 
 	map() {
 		if (this.node.type === "Literal") {
-			if (typeof this.node.value !== "string" && typeof this.node.value !== "number" && typeof this.node.value !== "boolean") {
-				throw new Error("Literal value must be a string, number, boolean or null");
-			}
-
-			let value = this.node.value;
-
-			if (typeof value === "boolean") {
-				value = value ? "true" : "false";
-			}
-
-			return this.createLiteralExpression(value);
+			const mapper = new LiteralMapper(this.node as TSESTree.Literal, this.options, this.context);
+			
+			return mapper.map();
 		}
 		else if (this.node.type === "CallExpression") {
 			if (this.node.callee.type === "MemberExpression") {
@@ -49,15 +42,6 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.RhsValue
 				throw new Error("Not implemented");
 			}
 		}
-	}
-
-	createLiteralExpression(value: Dafny.LiteralExpressionType) {
-		const data: Dafny.LiteralExpression = {
-			type: "LiteralExpression",
-			value
-		}
-
-		return data;
 	}
 
 	getType() {

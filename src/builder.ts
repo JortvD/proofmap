@@ -82,8 +82,8 @@ class Builder {
 		return `var ${key.join(", ")} := ${init.map(rhs => this.buildRhs(rhs)).join(", ")};`;
 	}
 
-	buildUpdateStmt({}: Dafny.UpdateStmt): string {
-		return "";
+	buildUpdateStmt({key, value}: Dafny.UpdateStmt): string {
+		return `${key.map(lhs => this.buildLhs(lhs)).join(", ")} := ${value.map(rhs => this.buildRhs(rhs)).join(", ")};`;
 	}
 
 	buildRhs({value}: Dafny.Rhs): string {
@@ -92,6 +92,18 @@ class Builder {
 		}
 
 		return "";
+	}
+
+	buildLhs({value}: Dafny.Lhs): string {
+		if(value.type === "NameSegment") {
+			return this.buildNameSegment(value);
+		}
+
+		return "";
+	}
+
+	buildNameSegment({value}: Dafny.NameSegment): string {
+		return value;
 	}
 
 	buildLiteralExpression({value}: Dafny.LiteralExpression): string {

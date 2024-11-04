@@ -2,6 +2,7 @@ import { TSESTree } from "@typescript-eslint/typescript-estree";
 import AbstractMapper, { MapOptions } from "./abstract";
 import ClassDeclarationMapper from "./classDeclaration";
 import { Dafny } from "../types";
+import { createDafny, createModuleDefinition, createSubModuleDecl, createTopDecl } from "../typeCreate";
 
 class ProgramMapper extends AbstractMapper<TSESTree.Program,Dafny.Dafny> {
 	fileName: string;
@@ -24,50 +25,15 @@ class ProgramMapper extends AbstractMapper<TSESTree.Program,Dafny.Dafny> {
 		for (const statement of this.node.body) {
 			if (statement.type === "ClassDeclaration") {
 				const mapper = new ClassDeclarationMapper(statement, this.options, this.context);
-				value.push(this.createTopDecl(mapper.map()));
+				value.push(createTopDecl(mapper.map()));
 			}
 		}
 
-		const wrapperModule = this.createSubModuleDecl(this.createModuleDefinition(this.fileName, value));
-		return this.createType([this.createTopDecl(wrapperModule)]);
+		const wrapperModule = createSubModuleDecl(createModuleDefinition(this.fileName, value));
+		return createDafny([createTopDecl(wrapperModule)]);
 	}
 
-	createType(value: Dafny.TopDecl[]) {
-		const type: Dafny.Dafny = {
-			type: "Dafny",
-			value
-		}
-
-		return type;
-	}
-
-	createTopDecl(value: Dafny.ClassDecl|Dafny.SubModuleDecl) {
-		const type: Dafny.TopDecl = {
-			type: "TopDecl",
-			value
-		}
-
-		return type;
-	}
-
-	createSubModuleDecl(value: Dafny.ModuleDefinition) {
-		const type: Dafny.SubModuleDecl = {
-			type: "SubModuleDecl",
-			value
-		}
-
-		return type;
-	}
-
-	createModuleDefinition(name: string, value: Dafny.TopDecl[]) {
-		const type: Dafny.ModuleDefinition = {
-			type: "ModuleDefinition",
-			name,
-			value
-		}
-
-		return type;
-	}
+	
 }
 
 export default ProgramMapper;
