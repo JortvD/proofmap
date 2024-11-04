@@ -1,146 +1,140 @@
 import { Dafny } from "./types";
 
-export function createMethodDecl(name: string, keyword: Dafny.MethodKeywordValue, value: Dafny.BlockStmt) {
-	const type: Dafny.MethodDecl = {
+export function createMethodDecl(
+	name: string,
+	keyword: Dafny.MethodKeywordValue,
+	value: Dafny.BlockStmt
+): Dafny.MethodDecl {
+	return {
 		type: "MethodDecl",
 		keyword: {
 			type: "MethodKeyword",
-			value: keyword
+			value: keyword,
 		},
-		name: name,
+		name,
 		specification: undefined,
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createBlockStmt(value: Dafny.Stmt[]) {
-	const type: Dafny.BlockStmt = {
+export function createBlockStmt(value: Dafny.Stmt[]): Dafny.BlockStmt {
+	return {
 		type: "BlockStmt",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createStmt(value: Dafny.StmtValue) {
-	const type: Dafny.Stmt = {
+export function createStmt(value: Dafny.StmtValue): Dafny.Stmt {
+	return {
 		type: "Stmt",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createClassDecl(name: string, value: Dafny.ClassMemberDecl[]) {
-	const type: Dafny.ClassDecl = {
+export function createClassDecl(
+	name: string,
+	value: Dafny.ClassMemberDecl[]
+): Dafny.ClassDecl {
+	return {
 		type: "ClassDecl",
 		name,
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createClassMemberDecl(value: Dafny.MethodDecl) {
-	const type: Dafny.ClassMemberDecl = {
+export function createClassMemberDecl(
+	value: Dafny.MethodDecl
+): Dafny.ClassMemberDecl {
+	return {
 		type: "ClassMemberDecl",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createLiteralExpression(value: Dafny.LiteralExpressionType) {
-	const data: Dafny.LiteralExpression = {
+export function createLiteralExpression(
+	value: Dafny.LiteralExpressionType
+): Dafny.LiteralExpression {
+	return {
 		type: "LiteralExpression",
-		value
-	}
-
-	return data;
+		value,
+	};
 }
 
-export function createUpdateStmt(lhs: Dafny.Lhs[], rhs: Dafny.Rhs[]) {
-	const type: Dafny.UpdateStmt = {
+export function createUpdateStmt(
+	lhs: Dafny.Lhs[],
+	rhs: Dafny.Rhs[]
+): Dafny.UpdateStmt {
+	return {
 		type: "UpdateStmt",
 		key: lhs,
-		value: rhs
-	}
-
-	return type;
+		value: rhs,
+	};
 }
 
-export function createVarDeclStatement(key: string[], init: Dafny.Rhs[]) {
-	const type: Dafny.VarDeclStatement = {
+export function createVarDeclStatement(
+	key: string[],
+	init: Dafny.Rhs[]
+): Dafny.VarDeclStatement {
+	return {
 		type: "VarDeclStatement",
 		key,
-		init
-	}
-
-	return type;
+		init,
+	};
 }
 
-export function createRhs(value: Dafny.RhsValue) {
-	const type: Dafny.Rhs = {
+export function createRhs(value: Dafny.RhsValue): Dafny.Rhs {
+	return {
 		type: "Rhs",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createLhs(value: Dafny.NameSegment) {
-	const type: Dafny.Lhs = {
+export function createLhs(value: Dafny.NameSegment): Dafny.Lhs {
+	return {
 		type: "Lhs",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createNameSegment(value: string) {
-	const type: Dafny.NameSegment = {
+export function createNameSegment(value: string): Dafny.NameSegment {
+	return {
 		type: "NameSegment",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createDafny(value: Dafny.TopDecl[]) {
-	const type: Dafny.Dafny = {
+export function createDafny(value: Dafny.TopDecl[]): Dafny.Dafny {
+	return {
 		type: "Dafny",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createTopDecl(value: Dafny.ClassDecl|Dafny.SubModuleDecl) {
-	const type: Dafny.TopDecl = {
+export function createTopDecl(
+	value: Dafny.ClassDecl | Dafny.SubModuleDecl
+): Dafny.TopDecl {
+	return {
 		type: "TopDecl",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createSubModuleDecl(value: Dafny.ModuleDefinition) {
-	const type: Dafny.SubModuleDecl = {
+export function createSubModuleDecl(
+	value: Dafny.ModuleDefinition
+): Dafny.SubModuleDecl {
+	return {
 		type: "SubModuleDecl",
-		value
-	}
-
-	return type;
+		value,
+	};
 }
 
-export function createModuleDefinition(name: string, value: Dafny.TopDecl[]) {
-	const type: Dafny.ModuleDefinition = {
+export function createModuleDefinition(
+	name: string,
+	value: Dafny.TopDecl[]
+): Dafny.ModuleDefinition {
+	return {
 		type: "ModuleDefinition",
 		name,
-		value
-	}
-
-	return type;
+		value,
+	};
 }
