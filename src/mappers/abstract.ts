@@ -1,7 +1,7 @@
 import { TSESTree } from "@typescript-eslint/typescript-estree";
 
 export interface MapOptions {
-	defaultOutputName: string;
+	defaultReturnsName: string;
 }
 
 export interface MapContext {

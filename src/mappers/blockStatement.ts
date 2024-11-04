@@ -4,6 +4,7 @@ import VariableDeclarationMapper from "./variableDeclaration";
 import ExpressionStatementMapper from "./expressionStatement";
 import { Dafny } from "../types";
 import { createBlockStmt, createStmt } from "../typeCreate";
+import ReturnStatementMapper from "./returnStatement";
 
 class BlockStatementMapper extends AbstractMapper<TSESTree.BlockStatement,Dafny.BlockStmt> {
 	map() {
@@ -17,6 +18,9 @@ class BlockStatementMapper extends AbstractMapper<TSESTree.BlockStatement,Dafny.
 			}
 			else if (statement.type === "ExpressionStatement") {
 				mapper = new ExpressionStatementMapper(statement, this.options, this.context);
+			}
+			else if (statement.type === "ReturnStatement") {
+				mapper = new ReturnStatementMapper(statement, this.options, this.context);
 			}
 
 			if (!mapper) {
@@ -34,8 +38,6 @@ class BlockStatementMapper extends AbstractMapper<TSESTree.BlockStatement,Dafny.
 
 		return createBlockStmt(value);
 	}
-
-	
 }
 
 export default BlockStatementMapper;

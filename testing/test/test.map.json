@@ -24,6 +24,35 @@
 												"value": "method"
 											},
 											"name": "test",
+											"signature": {
+												"type": "MethodSignature_",
+												"parameters": {
+													"type": "Formals",
+													"value": []
+												},
+												"returns": {
+													"type": "Formals",
+													"value": [
+														{
+															"type": "GIdentType",
+															"value": {
+																"type": "IdentType",
+																"name": "pm_output",
+																"type_": {
+																	"type": "Type",
+																	"value": {
+																		"type": "DomainType_",
+																		"value": {
+																			"type": "StringType_",
+																			"value": "string"
+																		}
+																	}
+																}
+															}
+														}
+													]
+												}
+											},
 											"value": {
 												"type": "BlockStmt",
 												"value": [
@@ -32,8 +61,7 @@
 														"value": {
 															"type": "VarDeclStatement",
 															"key": [
-																"test",
-																"test2"
+																"test"
 															],
 															"init": [
 																{
@@ -42,13 +70,6 @@
 																		"type": "LiteralExpression",
 																		"value": "test"
 																	}
-																},
-																{
-																	"type": "Rhs",
-																	"value": {
-																		"type": "LiteralExpression",
-																		"value": "test2"
-																	}
 																}
 															]
 														}
@@ -56,46 +77,13 @@
 													{
 														"type": "Stmt",
 														"value": {
-															"type": "UpdateStmt",
-															"key": [
+															"type": "ReturnStmt",
+															"value": [
 																{
-																	"type": "Lhs",
+																	"type": "Rhs",
 																	"value": {
 																		"type": "NameSegment",
 																		"value": "test"
-																	}
-																}
-															],
-															"value": [
-																{
-																	"type": "Rhs",
-																	"value": {
-																		"type": "LiteralExpression",
-																		"value": "abc"
-																	}
-																}
-															]
-														}
-													},
-													{
-														"type": "Stmt",
-														"value": {
-															"type": "UpdateStmt",
-															"key": [
-																{
-																	"type": "Lhs",
-																	"value": {
-																		"type": "NameSegment",
-																		"value": "test2"
-																	}
-																}
-															],
-															"value": [
-																{
-																	"type": "Rhs",
-																	"value": {
-																		"type": "LiteralExpression",
-																		"value": "def"
 																	}
 																}
 															]

@@ -17,7 +17,7 @@ if (ast.type !== "Program") {
 writeFileSync(`${folder}/${fileName}.json`, JSON.stringify(ast, null, "\t"));
 
 const mapper = new ProgramMapper(ast, {
-	defaultOutputName: 'pm_output'
+	defaultReturnsName: 'pm_output'
 }, fileName);
 
 const data = mapper.map();

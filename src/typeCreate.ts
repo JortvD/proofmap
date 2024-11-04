@@ -3,7 +3,9 @@ import { Dafny } from "./types";
 export function createMethodDecl(
 	name: string,
 	keyword: Dafny.MethodKeywordValue,
-	value: Dafny.BlockStmt
+	value: Dafny.BlockStmt,
+	parameters: Dafny.Formals,
+	returns: Dafny.Formals
 ): Dafny.MethodDecl {
 	return {
 		type: "MethodDecl",
@@ -13,13 +15,82 @@ export function createMethodDecl(
 		},
 		name,
 		specification: undefined,
+		signature: {
+			type: "MethodSignature_",
+			parameters: parameters,
+			returns,
+		},
 		value,
+	};
+}
+
+export function createFormals(value: Dafny.GIdentType[]): Dafny.Formals {
+	return {
+		type: "Formals",
+		value,
+	};
+}
+
+export function createType(value: Dafny.TypeValue): Dafny.Type {
+	return {
+		type: "Type",
+		value,
+	};
+}
+
+export function createDomainType_(value: Dafny.DomainType_Value): Dafny.DomainType_ {
+	return {
+		type: "DomainType_",
+		value,
+	};
+}
+
+export function createBoolType_(): Dafny.BoolType_ {
+	return {
+		type: "BoolType_",
+		value: "bool",
+	};
+}
+
+export function createIntType_(): Dafny.IntType_ {
+	return {
+		type: "IntType_",
+		value: "int",
+	};
+}
+
+export function createStringType_(): Dafny.StringType_ {
+	return {
+		type: "StringType_",
+		value: "string",
+	};
+}
+
+export function createGIndentType(value: Dafny.IdentType): Dafny.GIdentType {
+	return {
+		type: "GIdentType",
+		value,
+	};
+}
+
+export function createIndentType(name: string, type: Dafny.Type): Dafny.IdentType {
+	return {
+		type: "IdentType",
+		name,
+		type_: type,
 	};
 }
 
 export function createBlockStmt(value: Dafny.Stmt[]): Dafny.BlockStmt {
 	return {
 		type: "BlockStmt",
+		value,
+	};
+}
+
+export function createReturnStmt(value: Dafny.Rhs[]): Dafny.ReturnStmt {
+	return {
+		type: "ReturnStmt",
 		value,
 	};
 }

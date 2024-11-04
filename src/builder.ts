@@ -53,10 +53,60 @@ class Builder {
 		return "";
 	}
 
-	buildMethodDecl({keyword, name, value}: Dafny.MethodDecl): string {
+	buildMethodDecl({keyword, name, value, signature}: Dafny.MethodDecl): string {
 		const body = this.buildBlockStmt(value);
 
-		return `${this.buildMethodKeyword(keyword)} ${name}() {\n${this.indent(body)}\n}`;
+		return `${this.buildMethodKeyword(keyword)} ${name}${this.buildMethodSignature_(signature)} {\n${this.indent(body)}\n}`;
+	}
+
+	buildMethodSignature_({parameters, returns}: Dafny.MethodSignature_): string {
+		const returnsText = returns.value.length > 0 ? ` returns ${this.buildFormals(returns)}` : "";
+
+		return `${this.buildFormals(parameters)}${returnsText}`;
+	}
+
+	buildFormals({value}: Dafny.Formals): string {
+		return `(${value.map(gIdentType => this.buildGIdentType(gIdentType)).join(", ")})`;
+	}
+
+	buildGIdentType({value}: Dafny.GIdentType): string {
+		return this.buildIdentType(value);
+	}
+
+	buildIdentType({name, type_}: Dafny.IdentType): string {
+		return `${name}: ${this.buildType(type_)}`;
+	}
+
+	buildType({value}: Dafny.Type): string {
+		if (value.type === "DomainType_") {
+			return this.buildDomainType_(value);
+		}
+
+		return "";
+	}
+
+	buildDomainType_({value}: Dafny.DomainType_): string {
+		if (value.type === "BoolType_") {
+			return this.buildBoolType_(value);
+		}
+		else if (value.type === "IntType_") {
+			return this.buildIntType_(value);
+		}
+		else if (value.type === "StringType_") {
+			return this.buildStringType_(value);
+		}
+	}
+
+	buildBoolType_({value}: Dafny.BoolType_): string {
+		return value;
+	}
+
+	buildIntType_({value}: Dafny.IntType_): string {
+		return value;
+	}
+
+	buildStringType_({value}: Dafny.StringType_): string {
+		return value;
 	}
 
 	buildMethodKeyword({value}: Dafny.MethodKeyword): string {
@@ -74,6 +124,9 @@ class Builder {
 		else if(value.type === "UpdateStmt") {
 			return this.buildUpdateStmt(value);
 		}
+		else if(value.type === "ReturnStmt") {
+			return this.buildReturnStmt(value);
+		}
 
 		return "";
 	}
@@ -86,9 +139,16 @@ class Builder {
 		return `${key.map(lhs => this.buildLhs(lhs)).join(", ")} := ${value.map(rhs => this.buildRhs(rhs)).join(", ")};`;
 	}
 
+	buildReturnStmt({value}: Dafny.ReturnStmt): string {
+		return `return ${value.map(rhs => this.buildRhs(rhs)).join(", ")};`;
+	}
+
 	buildRhs({value}: Dafny.Rhs): string {
 		if(value.type === "LiteralExpression") {
 			return this.buildLiteralExpression(value);
+		}
+		else if(value.type === "NameSegment") {
+			return this.buildNameSegment(value);
 		}
 
 		return "";

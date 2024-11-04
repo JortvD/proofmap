@@ -30,29 +30,31 @@ export namespace Dafny {
 
 	// 17.2.3. Types
 	export interface Type extends Grammar {
-		type: "type";
-		value: DomainType_;
+		type: "Type";
+		value: TypeValue;
 	}
+	export type TypeValue = DomainType_;
 
 	export interface DomainType_ extends Grammar {
-		type: "type";
-		value: BoolType_|IntType_ | StringType_;
+		type: "DomainType_";
+		value: DomainType_Value;
 	}
+	export type DomainType_Value = BoolType_|IntType_ | StringType_;
 
 	// 17.2.3.1. Basic types
 	export interface BoolType_ extends Grammar {
-		type: "BoolType";
+		type: "BoolType_";
 		value: "bool";
 	}
 
 	export interface IntType_ extends Grammar {
-		type: "IntType";
+		type: "IntType_";
 		value: "int";
 	}
 
 	// 17.2.3.4. Collection types
 	export interface StringType_ extends Grammar {
-		type: "StringType";
+		type: "StringType_";
 		value: "string";
 	}
 
@@ -73,7 +75,8 @@ export namespace Dafny {
 		type: "MethodDecl";
 		keyword: MethodKeyword;
 		name: string;
-		specification: MethodSpec|undefined;
+		specification?: MethodSpec;
+		signature: MethodSignature_;
 		value: BlockStmt;
 	}
 
@@ -83,6 +86,17 @@ export namespace Dafny {
 	}
 
 	export type MethodKeywordValue = "method"|"constructor"|"lemma"|"twostate lemma"|"least lemma"|"greatest lemma";
+
+	export interface MethodSignature_ extends Grammar {
+		type: "MethodSignature_";
+		parameters: Formals;
+		returns: Formals;
+	}
+
+	export interface Formals extends Grammar {
+		type: "Formals";
+		value: GIdentType[];
+	}
 
 	// 17.2.5.1. Method specifications
 	export interface MethodSpec extends Grammar {
@@ -108,7 +122,7 @@ export namespace Dafny {
 		//label: string;
 		value: StmtValue; // TODO: change to NonLabeledStmt
 	}
-	export type StmtValue = VarDeclStatement|UpdateStmt;
+	export type StmtValue = VarDeclStatement|UpdateStmt|ReturnStmt;
 
 	// 17.2.6.2. Non-Labeled statement
 	/*export interface NonLabeledStmt extends Grammar {
@@ -120,6 +134,12 @@ export namespace Dafny {
 	export interface BlockStmt extends Grammar {
 		type: "BlockStmt";
 		value: Stmt[];
+	}
+
+	// 17.2.6.5. Return statement
+	export interface ReturnStmt extends Grammar {
+		type: "ReturnStmt";
+		value: Rhs[];
 	}
 
 	// 17.2.6.7. Update and call statement
@@ -237,5 +257,17 @@ export namespace Dafny {
 	export interface NameSegment extends Grammar {
 		type: "NameSegment";
 		value: string;
+	}
+
+	// 17.2.7.53. Basic name and type combinations
+	export interface IdentType extends Grammar {
+		type: "IdentType";
+		name: string;
+		type_: Type;
+	}
+
+	export interface GIdentType extends Grammar {
+		type: "GIdentType";
+		value: IdentType;
 	}
 }

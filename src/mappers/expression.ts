@@ -2,6 +2,7 @@ import { TSESTree } from "@typescript-eslint/typescript-estree";
 import AbstractMapper from "./abstract";
 import { Dafny } from "../types";
 import LiteralMapper from "./literal";
+import IdentifierMapper from "./identifier";
 
 class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.RhsValue> {
 	checkProofMapValidArguments() {
@@ -18,8 +19,13 @@ class ExpressionMapper extends AbstractMapper<TSESTree.Expression,Dafny.RhsValue
 
 	map() {
 		if (this.node.type === "Literal") {
-			const mapper = new LiteralMapper(this.node as TSESTree.Literal, this.options, this.context);
-			
+			const mapper = new LiteralMapper(this.node, this.options, this.context);
+
+			return mapper.map();
+		}
+		else if (this.node.type === "Identifier") {
+			const mapper = new IdentifierMapper(this.node, this.options, this.context);
+
 			return mapper.map();
 		}
 		else if (this.node.type === "CallExpression") {

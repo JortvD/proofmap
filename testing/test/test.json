@@ -186,61 +186,10 @@
 													"raw": "\"test\"",
 													"value": "test"
 												}
-											},
-											{
-												"type": "VariableDeclarator",
-												"definite": false,
-												"id": {
-													"type": "Identifier",
-													"decorators": [],
-													"name": "test2",
-													"optional": false
-												},
-												"init": {
-													"type": "Literal",
-													"raw": "\"test2\"",
-													"value": "test2"
-												}
 											}
 										],
 										"declare": false,
 										"kind": "let"
-									},
-									{
-										"type": "ExpressionStatement",
-										"expression": {
-											"type": "AssignmentExpression",
-											"operator": "=",
-											"left": {
-												"type": "Identifier",
-												"decorators": [],
-												"name": "test",
-												"optional": false
-											},
-											"right": {
-												"type": "Literal",
-												"raw": "\"abc\"",
-												"value": "abc"
-											}
-										}
-									},
-									{
-										"type": "ExpressionStatement",
-										"expression": {
-											"type": "AssignmentExpression",
-											"operator": "=",
-											"left": {
-												"type": "Identifier",
-												"decorators": [],
-												"name": "test2",
-												"optional": false
-											},
-											"right": {
-												"type": "Literal",
-												"raw": "\"def\"",
-												"value": "def"
-											}
-										}
 									},
 									{
 										"type": "ReturnStatement",
