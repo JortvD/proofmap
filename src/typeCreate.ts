@@ -11,7 +11,7 @@ export function createMethodDecl(
 	return {
 		type: "MethodDecl",
 		keyword: {
-			type: "MethodKeyword",
+			type: "MethodKeyword_",
 			value: keyword,
 		},
 		name,

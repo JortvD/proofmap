@@ -5,8 +5,9 @@ module test {
     {
       0 > 0
     }
-  }
-  predicate test2() {
-    1 > 0
+
+    predicate test2() {
+      1 > 0
+    }
   }
 }

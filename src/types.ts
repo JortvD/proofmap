@@ -1,6 +1,18 @@
 export namespace Dafny {
+
+	export interface LocPosition {
+		line: number;
+		column: number;
+	}
+
+	export interface Loc {
+		start: LocPosition;
+		end: LocPosition;
+	}
+
 	export interface Grammar {
 		type: string;
+		loc?: Loc;
 	}
 
 	// 17.2.1. Programs
@@ -75,15 +87,15 @@ export namespace Dafny {
 	// 17.2.4.3. Method declarations
 	export interface MethodDecl extends Grammar {
 		type: "MethodDecl";
-		keyword: MethodKeyword;
+		keyword: MethodKeyword_;
 		name: string;
 		specification?: MethodSpec;
 		signature: MethodSignature_;
 		value: BlockStmt;
 	}
 
-	export interface MethodKeyword extends Grammar {
-		type: "MethodKeyword";
+	export interface MethodKeyword_ extends Grammar {
+		type: "MethodKeyword_";
 		value: MethodKeywordValue;
 	}
 

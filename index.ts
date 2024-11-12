@@ -1,4 +1,4 @@
-import Builder from "./src/builder";
+import { DafnyBuilder } from "./src/builder/programs";
 import ProgramMapper from "./src/mappers/program";
 import Parser from "./src/parser";
 import { writeFileSync } from "fs";
@@ -22,11 +22,10 @@ const mapper = new ProgramMapper(ast, {
 
 const data = mapper.map();
 
-writeFileSync(`${folder}/${fileName}.map.json`, JSON.stringify(data, null, "\t"));
-
-const builder = new Builder({
+const builder = new DafnyBuilder(data, {
 	indentation: "  "
-});
-const output = builder.buildDafny(data);
+})
+const output = builder.build({ line: 0, column: 0 });
 
+writeFileSync(`${folder}/${fileName}.map.json`, JSON.stringify(data, null, "\t"));
 writeFileSync(`${folder}/${fileName}.dfy`, output);

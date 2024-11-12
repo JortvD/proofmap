@@ -7,7 +7,9 @@ class Parser {
 	}
 
 	parse(fileContents: string) {
-		return parse(fileContents, {});
+		return parse(fileContents, {
+			loc: true,
+		});
 	}
 }
 

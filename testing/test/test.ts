@@ -7,8 +7,8 @@ class Test {
 
 		return 0 > 0;
 	}
-}
 
-function test2(): boolean {
-	return 1 > 0;
+	get test2(): boolean {
+		return 1 > 0;
+	}
 }
